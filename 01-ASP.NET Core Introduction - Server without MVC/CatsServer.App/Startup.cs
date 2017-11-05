@@ -1,4 +1,4 @@
-﻿namespace CatsServer
+﻿namespace CatsServer.App
 {
     using Data;
     using Infrastructure.Extensions;

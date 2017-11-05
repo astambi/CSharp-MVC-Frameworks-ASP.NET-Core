@@ -11,7 +11,5 @@
         }
 
         public DbSet<Cat> Cats { get; set; }
-
-
     }
 }

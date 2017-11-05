@@ -1,4 +1,4 @@
-﻿namespace CatsServer
+﻿namespace CatsServer.App
 {
     using Microsoft.AspNetCore;
     using Microsoft.AspNetCore.Hosting;

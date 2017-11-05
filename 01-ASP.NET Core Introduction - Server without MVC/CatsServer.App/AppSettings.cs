@@ -1,4 +1,4 @@
-﻿namespace CatsServer
+﻿namespace CatsServer.App
 {
     public class AppSettings
     {

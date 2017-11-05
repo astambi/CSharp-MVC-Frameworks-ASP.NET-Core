@@ -1,4 +1,4 @@
-﻿namespace CatsServer.Middleware
+﻿namespace CatsServer.App.Middleware
 {
     using Data;
     using Microsoft.AspNetCore.Http;

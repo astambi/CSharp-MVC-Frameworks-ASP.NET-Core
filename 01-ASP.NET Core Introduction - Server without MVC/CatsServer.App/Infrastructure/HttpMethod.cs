@@ -1,4 +1,4 @@
-﻿namespace CatsServer.Infrastructure
+﻿namespace CatsServer.App.Infrastructure
 {
     public class HttpMethod
     {

@@ -1,4 +1,4 @@
-﻿namespace CatsServer.Handlers
+﻿namespace CatsServer.App.Handlers
 {
     using Data;
     using Infrastructure;
@@ -24,12 +24,14 @@
                 if (urlTokens.Length < 2)
                 {
                     context.Response.Redirect("/");
+                    return;
                 }
 
                 int.TryParse(urlTokens[1], out int catId);
                 if (catId <= 0)
                 {
                     context.Response.Redirect("/");
+                    return;
                 }
 
                 using (var db = context.RequestServices.GetRequiredService<CatsDbContext>())
@@ -38,6 +40,7 @@
                     if (cat == null)
                     {
                         context.Response.Redirect("/");
+                        return;
                     }
 
                     await context.Response.WriteAsync($"<h1>{cat.Name}</h1>");

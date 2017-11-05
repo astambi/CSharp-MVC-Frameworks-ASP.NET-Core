@@ -1,4 +1,4 @@
-﻿namespace CatsServer.Infrastructure.Extensions
+﻿namespace CatsServer.App.Infrastructure.Extensions
 {
     using Handlers;
     using Microsoft.AspNetCore.Builder;

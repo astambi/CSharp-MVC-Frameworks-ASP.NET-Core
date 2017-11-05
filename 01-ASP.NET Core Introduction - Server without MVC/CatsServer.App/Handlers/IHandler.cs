@@ -1,4 +1,4 @@
-﻿namespace CatsServer.Handlers
+﻿namespace CatsServer.App.Handlers
 {
     using Microsoft.AspNetCore.Http;
     using System;
