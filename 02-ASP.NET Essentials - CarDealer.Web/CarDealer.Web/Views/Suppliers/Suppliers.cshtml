@@ -1,0 +1,28 @@
+﻿@model SuppliersByType
+
+@{
+    ViewData["Title"] = "Suppliers By Type";
+}
+
+<h2>Suppliers by Type: @Model.Type.ToUpper()</h2>
+
+<table class="table  table-bordered table-hover table-striped ">
+
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Total Parts Supplied</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var supplier in Model.Suppliers)
+        {
+            <tr>
+                <td>@supplier.Id</td>
+                <td>@supplier.Name</td>
+                <td>@supplier.Parts</td>
+            </tr>
+        }
+    </tbody>
+</table>

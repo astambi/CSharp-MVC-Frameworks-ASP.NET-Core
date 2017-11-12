@@ -1,0 +1,27 @@
+﻿@model CarsByMakeModel
+
+@{
+    ViewData["Title"] = "Cars From Make";
+}
+
+<h2>@Model.Make.ToUpper() Cars</h2>
+
+<table class="table table-hover table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>Make</th>
+            <th>Model</th>
+            <th>Travelled Distance, '000 km</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var car in Model.Cars)
+        {
+            <tr>
+                <td>@car.Make</td>
+                <td>@car.Model</td>
+                <td align="right">@((car.TravelledDistance / 1000).ToString("N0"))</td>
+            </tr>
+        }
+    </tbody>
+</table>
