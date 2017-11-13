@@ -1,8 +1,9 @@
 ﻿namespace CarDealer.Services.Implementations
 {
     using Data;
-    using Models;
+    using Data.Models;
     using Models.Cars;
+    using Models.Parts;
     using System.Collections.Generic;
     using System.Linq;
 
@@ -53,6 +54,19 @@
                             })
                 })
                 .ToList();
+        }
+
+        public void Create(string make, string model, long travelledDistance)
+        {
+            var car = new Car
+            {
+                Make = make,
+                Model = model,
+                TravelledDistance = travelledDistance
+            };
+
+            this.db.Cars.Add(car);
+            this.db.SaveChanges();
         }
     }
 }

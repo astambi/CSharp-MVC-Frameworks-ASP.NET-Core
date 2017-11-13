@@ -34,12 +34,40 @@
             return this.View(model);
         }
 
-        [Route("parts", Order = 1)]
+        [Route(nameof(Parts), Order = 1)]
         public IActionResult Parts()
         {
             var carsWithParts = this.carService.AllWithParts();
 
             return this.View(carsWithParts);
         }
+
+        [Route(nameof(Create), Order = 1)]
+        public IActionResult Create()
+        {
+            return this.View();
+        }
+
+        [HttpPost]
+        [Route(nameof(Create), Order = 1)]
+        public IActionResult Create(CarFormModel carModel) // NB!!! model property & CarFormModel binding mismatch!
+        {
+            if (!this.ModelState.IsValid)
+            {
+                return this.View(carModel);
+            }
+
+            this.carService.Create(
+                carModel.Make,
+                carModel.Model,
+                carModel.TravelledDistance);
+
+            return this.RedirectToAction(
+                nameof(ByMake),
+                new { make = carModel.Make });
+        }
+
+
+
     }
 }

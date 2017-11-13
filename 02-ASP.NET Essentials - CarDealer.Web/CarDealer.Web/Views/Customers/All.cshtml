@@ -13,6 +13,7 @@
             <th>Name</th>
             <th>Birth Date</th>
             <th>Is Young Driver</th>
+            <th>Actions</th>
         </tr>
     </thead>
     <tbody>
@@ -22,6 +23,7 @@
                 <td>@customer.Name</td>
                 <td>@customer.BirthDate.ToShortDateString()</td>
                 <td>@(customer.IsYoungDriver ? "Yes" : "No")</td>
+                <td><a href="/customers/edit/@customer.Id" class="btn btn-block btn-warning">Edit</a></td>
             </tr>
         }
     </tbody>

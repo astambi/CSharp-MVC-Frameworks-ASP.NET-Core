@@ -1,15 +1,22 @@
 ﻿@model SaleModel
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Sale Details";
 }
 
 <h2>Sale Details</h2>
 
-<h3>Car Make: @Model.Make</h3>
-<h3>Car Model: @Model.Model</h3>
-<h3>Travelled Distance, '000 km: @((Model.TravelledDistance / 1000).ToString("N0"))</h3>
-<h3>Customer: @Model.Customer</h3>
-<h3>Gross Price: @Model.Price.ToString("C2")</h3>
-<h3>Net Price: @Model.NetPrice.ToString("C2")</h3>
-<h3>Discount: @Model.Discount.ToString("P0")</h3>
+@if (Model == null)
+{
+    <h3>Sale not found</h3>
+}
+else
+{
+    <h3>Car Make: @Model.Make</h3>
+    <h3>Car Model: @Model.Model</h3>
+    <h3>Travelled Distance, '000 km: @((Model.TravelledDistance / 1000).ToString("N0"))</h3>
+    <h3>Customer: @Model.Customer</h3>
+    <h3>Gross Price: @Model.Price.ToCurrency()</h3>
+    <h3>Net Price: @Model.NetPrice.ToCurrency()</h3>
+    <h3>Discount: @Model.Discount.ToPercentage()</h3>
+}

@@ -33,3 +33,15 @@
         display: none;
     }
 }
+
+/*disabled button click on pagination*/
+a.disabled {
+    /* Make the disabled links grayish*/
+    color: gray;
+    /* And disable the pointer events */
+    pointer-events: none;
+}
+
+.parts-select {
+    height: 400px;
+}

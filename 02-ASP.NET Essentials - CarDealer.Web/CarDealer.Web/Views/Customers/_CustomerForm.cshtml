@@ -1,0 +1,23 @@
+﻿@model CustomerFormModel
+
+<form method="post">
+    <div class="form-group">
+        <div class="form-group">
+            <label asp-for="Name"></label>
+            <input asp-for="Name" type="text" placeholder="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="BirthDate"></label>
+            <input asp-for="BirthDate" type="date" class="form-control" />
+            <span asp-validation-for="BirthDate" class="text-danger"></span>
+        </div>
+        <div class="form-check">
+            <input asp-for="IsYoungDriver" type="checkbox" class="form-check-input" />
+            <label asp-for="IsYoungDriver" class="form-check-label"></label>
+        </div>
+        <div>
+            <input type="submit" value="Save Customer" class="btn btn-primary btn-lg btn-block" />
+        </div>
+    </div>
+</form>

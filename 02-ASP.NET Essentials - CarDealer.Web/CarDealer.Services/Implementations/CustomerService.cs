@@ -1,6 +1,7 @@
 ﻿namespace CarDealer.Services.Implementations
 {
     using Data;
+    using Data.Models;
     using Models;
     using Models.Cars;
     using Models.Customers;
@@ -42,11 +43,45 @@
             return customersQuery
                 .Select(c => new CustomerModel
                 {
+                    Id = c.Id,
                     Name = c.Name,
                     BirthDate = c.BirthDate,
                     IsYoungDriver = c.IsYoungDriver
                 })
                 .ToList();
+        }
+
+        public void Create(string name, DateTime birthDate, bool isYoungDriver)
+        {
+            var customer = new Customer
+            {
+                Name = name,
+                BirthDate = birthDate,
+                IsYoungDriver = isYoungDriver
+            };
+
+            this.db.Customers.Add(customer);
+            this.db.SaveChanges();
+        }
+
+        public bool Exists(int id)
+        {
+            return this.db.Customers.Any(c => c.Id == id);
+        }
+
+        public CustomerModel GetById(int id)
+        {
+            return this.db
+                .Customers
+                .Where(c => c.Id == id)
+                .Select(c => new CustomerModel
+                {
+                    Id = c.Id,
+                    Name = c.Name,
+                    BirthDate = c.BirthDate,
+                    IsYoungDriver = c.IsYoungDriver
+                })
+                .FirstOrDefault();
         }
 
         public CustomerTotalSalesModel TotalSalesById(int id)
@@ -67,6 +102,22 @@
                         .ToList()
                 })
                 .FirstOrDefault();
+        }
+
+        public void Update(int id, string name, DateTime birthDate, bool isYoungDriver)
+        {
+            var customer = this.db.Customers.Where(c => c.Id == id).FirstOrDefault();
+            if (customer == null)
+            {
+                return;
+            }
+
+            customer.Name = name;
+            customer.BirthDate = birthDate;
+            customer.IsYoungDriver = isYoungDriver; // TODO? YoungDriver can be edited?
+
+            this.db.Update(customer);
+            this.db.SaveChanges();
         }
     }
 }

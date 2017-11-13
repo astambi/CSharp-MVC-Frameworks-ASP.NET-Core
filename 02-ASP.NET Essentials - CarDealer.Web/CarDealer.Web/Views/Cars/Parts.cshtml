@@ -19,9 +19,9 @@
         @foreach (var car in Model)
         {
             <tr>
-                <td>@car.Make</td>
+                <td><a href="/cars/@car.Make">@car.Make</a></td>
                 <td>@car.Model</td>
-                <td align="right">@((car.TravelledDistance / 1000).ToString("N0"))</td>
+                <td class="text-right">@((car.TravelledDistance / 1000).ToString("N0"))</td>
                 <td>
                     <ul>
                         @foreach (var part in car.Parts)

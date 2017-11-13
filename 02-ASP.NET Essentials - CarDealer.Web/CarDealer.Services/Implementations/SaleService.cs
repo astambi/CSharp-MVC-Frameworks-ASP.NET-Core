@@ -22,6 +22,7 @@
                 .Sales
                 .Select(s => new SaleModel
                 {
+                    Id = s.Id,
                     Make = s.Car.Make,
                     Model = s.Car.Model,
                     TravelledDistance = s.Car.TravelledDistance,
@@ -51,6 +52,7 @@
             return salesQuery
                 .Select(s => new SaleModel
                 {
+                    Id = s.Id,
                     Make = s.Car.Make,
                     Model = s.Car.Model,
                     TravelledDistance = s.Car.TravelledDistance,

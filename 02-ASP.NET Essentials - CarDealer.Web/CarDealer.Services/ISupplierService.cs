@@ -1,10 +1,14 @@
 ﻿namespace CarDealer.Services
 {
-    using Models;
+    using Models.Suppliers;
     using System.Collections.Generic;
 
     public interface ISupplierService
     {
-        IEnumerable<SupplierModel> AllByType(bool isImporter);
+        IEnumerable<SupplierListingModel> AllByType(bool isImporter);
+
+        IEnumerable<SupplierModel> AllDropDown();
+
+        bool Exists(int id);
     }
 }

@@ -1,0 +1,39 @@
+﻿@model PartFormModel
+
+<form method="post">
+    <div class="form-group">
+        <div class="form-group">
+            <label asp-for="Name"></label>
+            @if (Model.IsEdit)
+            {
+                <input asp-for="Name" type="text" readonly required placeholder="Name" class="form-control" />
+            }
+            else
+            {
+                <input asp-for="Name" type="text" required placeholder="Name" class="form-control" />
+            }
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Price"></label>
+            <input asp-for="Price" type="number" step="0.01" min="0" class="form-control" />
+            <span asp-validation-for="Price" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Quantity"></label>
+            <input asp-for="Quantity" type="number" step="1" min="1" class="form-control" />
+            <span asp-validation-for="Quantity" class="text-danger"></span>
+        </div>
+        @if (!Model.IsEdit)
+        {
+            <div class="form-group">
+                <label asp-for="SupplierId"></label>
+                <select asp-for="SupplierId" asp-items="Model.SuppliersDropdown" class="form-control"></select>
+                <span asp-validation-for="SupplierId" class="text-danger"></span>
+            </div>
+        }
+        <div>
+            <input type="submit" value="Save Part" class="btn btn-primary btn-lg btn-block" />
+        </div>
+    </div>
+</form>

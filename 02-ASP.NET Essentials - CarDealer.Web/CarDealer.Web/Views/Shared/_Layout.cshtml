@@ -31,21 +31,51 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                    <li><a asp-area="" asp-controller="Customers" asp-action="All">Customers</a></li>
-                    <li><a asp-area="" asp-controller="Cars" asp-action="All">Cars</a></li>
 
-                    <li class=" dropdown">
-                        <a class="btn btn-secondary dropdown-toggle" data-toggle="dropdown">
-                            Sales
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown">
+                            Customers
+                            <span class="caret"></span>
                         </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                            <p>
-                                <a asp-area="" asp-controller="Sales" asp-action="All" class="dropdown-item btn ">All</a>
-                            </p>
-                            <p>
-                                <a asp-area="" asp-controller="Sales" asp-action="Discounted" class="dropdown-item btn ">Discounted</a>
-                            </p>
-                        </div>
+                        <ul class="dropdown-menu">
+                            <li><a asp-area="" asp-controller="Customers" asp-action="Create">Add</a></li>
+                            <li><a href="/customers/all/ascending">All Ascending</a></li>
+                            <li><a href="/customers/all/descending">All Descending</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown">
+                            Cars
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a asp-area="" asp-controller="Cars" asp-action="Create">Add</a></li>
+                            <li><a asp-area="" asp-controller="Cars" asp-action="All">All</a></li>
+                            <li><a asp-area="" asp-controller="Cars" asp-action="Parts">All with Parts</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown">
+                            Parts
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a asp-area="" asp-controller="Parts" asp-action="Create">Add</a></li>
+                            <li><a asp-area="" asp-controller="Parts" asp-action="All">All</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown">
+                            Sales
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a asp-area="" asp-controller="Sales" asp-action="All">All</a></li>
+                            <li><a asp-area="" asp-controller="Sales" asp-action="Discounted">Discounted</a></li>
+                        </ul>
                     </li>
 
                 </ul>

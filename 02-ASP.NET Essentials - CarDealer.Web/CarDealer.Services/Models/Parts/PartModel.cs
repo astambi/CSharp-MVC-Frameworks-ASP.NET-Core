@@ -1,4 +1,4 @@
-﻿namespace CarDealer.Services.Models
+﻿namespace CarDealer.Services.Models.Parts
 {
     public class PartModel
     {

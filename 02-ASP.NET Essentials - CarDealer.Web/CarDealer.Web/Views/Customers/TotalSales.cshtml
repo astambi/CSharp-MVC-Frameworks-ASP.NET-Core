@@ -1,4 +1,5 @@
 ﻿@model CustomerTotalSalesModel
+
 @{
     ViewData["Title"] = "Total Sales for Customer";
 }
@@ -12,5 +13,5 @@ else
 {
     <h3>Name: @Model.Name</h3>
     <h3>Total Cars Bought: @Model.CarsBought</h3>
-    <h3>Total Money Spent: @Model.TotalMoneySpent.ToString("C2")</h3>
+    <h3>Total Money Spent: @Model.TotalMoneySpent.ToCurrency()</h3>
 }

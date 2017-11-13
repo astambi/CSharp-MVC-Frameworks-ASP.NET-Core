@@ -1,16 +1,14 @@
 ﻿namespace CarDealer.Web
 {
-    using CarDealer.Web.Controllers;
     using Data;
     using Data.Models;
+    using Infrastructure.Extensions;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
-    using Services;
-    using Services.Implementations;
 
     public class Startup
     {
@@ -33,10 +31,13 @@
                 .AddDefaultTokenProviders();
 
             // Add services
-            services.AddTransient<ICustomerService, CustomerService>();
-            services.AddTransient<ICarService, CarService>();
-            services.AddTransient<ISupplierService, SupplierService>();
-            services.AddTransient<ISaleService, SaleService>();
+            //services.AddTransient<ICustomerService, CustomerService>();
+            //services.AddTransient<ICarService, CarService>();
+            //services.AddTransient<ISupplierService, SupplierService>();
+            //services.AddTransient<ISaleService, SaleService>();
+            
+            // Add services with reflection
+            services.AddDomainServices();
 
             services.AddMvc();
         }

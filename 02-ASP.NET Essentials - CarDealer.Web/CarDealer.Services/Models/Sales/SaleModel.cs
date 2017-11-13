@@ -4,6 +4,8 @@
 
     public class SaleModel : CarModel
     {
+        public int Id { get; set; }
+
         public string Customer { get; set; }
 
         public decimal Price { get; set; }

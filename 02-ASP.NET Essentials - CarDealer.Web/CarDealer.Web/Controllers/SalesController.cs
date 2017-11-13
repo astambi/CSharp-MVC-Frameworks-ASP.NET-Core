@@ -1,5 +1,6 @@
 ﻿namespace CarDealer.Web.Controllers
 {
+    using Infrastructure.Extensions;
     using Services;
     using Microsoft.AspNetCore.Mvc;
 
@@ -24,6 +25,8 @@
         [Route("{id}")]
         public IActionResult Details(int id)
         {
+            //return this.ViewOrNotFound(this.saleService.ById(id));
+
             var sale = this.saleService.ById(id);
 
             return this.View(sale);

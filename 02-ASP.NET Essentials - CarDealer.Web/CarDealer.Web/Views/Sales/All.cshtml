@@ -16,19 +16,21 @@
             <th>Gross Price</th>
             <th>Net Price</th>
             <th>Discount</th>
+            <th>Details</th>
         </tr>
     </thead>
     <tbody>
-        @foreach(var sale in Model)
+        @foreach (var sale in Model)
         {
             <tr>
                 <td>@sale.Make</td>
                 <td>@sale.Model</td>
-                <td align="right">@((sale.TravelledDistance / 1000).ToString("N0"))</td>
+                <td class="text-right">@((sale.TravelledDistance / 1000).ToNumber())</td>
                 <td>@sale.Customer</td>
-                <td align="right">@sale.Price.ToString("C2")</td>
-                <td align="right">@sale.NetPrice.ToString("C2")</td>
-                <td align="right">@sale.Discount.ToString("P0")</td>
+                <td class="text-right">@sale.Price.ToCurrency()</td>
+                <td class="text-right">@sale.NetPrice.ToCurrency()</td>
+                <td class="text-right">@sale.Discount.ToPercentage()</td>
+                <td><a class="btn btn-block btn-default" href="/sales/@sale.Id">Details</a></td>
             </tr>
         }
     </tbody>
