@@ -9,6 +9,8 @@
     {
         IEnumerable<CustomerModel> AllOrdered(OrderDirection order);
 
+        IEnumerable<CustomerBasicModel> AllBasic();
+
         CustomerTotalSalesModel TotalSalesById(int id);
 
         void Create(string name, DateTime birthDate, bool isYoungDriver);

@@ -1,0 +1,18 @@
+﻿@model SupplierFormModel
+
+<form method="post">
+    <div class="form-group">
+        <div class="form-group">
+            <label asp-for="Name"></label>
+            <input asp-for="Name" type="text" placeholder="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div> 
+        <div class="form-check">
+            <input asp-for="IsImporter" type="checkbox" class="form-check-input" />
+            <label asp-for="IsImporter" class="form-check-label"></label>
+        </div>
+        <div>
+            <input type="submit" value="Save Supplier" class="btn btn-primary btn-lg btn-block" />
+        </div>
+    </div>
+</form>

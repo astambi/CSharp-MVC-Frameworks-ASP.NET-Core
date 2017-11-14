@@ -1,13 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace CarDealer.Web.Models.AccountModels
+﻿namespace CarDealer.Web.Models.AccountModels
 {
+    using System.ComponentModel.DataAnnotations;
+
     public class RegisterModel
     {
+        [Required]
+        [MinLength(4)]
+        [MaxLength(50)]
+        public string Username { get; set; }
+
         [Required]
         [EmailAddress]
         [Display(Name = "Email")]

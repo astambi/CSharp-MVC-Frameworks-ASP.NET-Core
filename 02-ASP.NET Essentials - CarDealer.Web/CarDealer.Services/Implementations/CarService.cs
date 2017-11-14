@@ -16,6 +16,21 @@
             this.db = db;
         }
 
+        public IEnumerable<CarBasicModel> AllBasic()
+        {
+            return this.db
+                .Cars
+                .OrderBy(c => c.Make)
+                .ThenBy(c => c.Model)
+                .Select(c => new CarBasicModel
+                {
+                    Id = c.Id,
+                    Make = c.Make,
+                    Model = c.Model
+                })
+                .ToList();
+        }
+
         public IEnumerable<CarModel> AllByMake(string make)
         {
             var cars = this.db.Cars.AsQueryable();
@@ -56,14 +71,26 @@
                 .ToList();
         }
 
-        public void Create(string make, string model, long travelledDistance)
+        public void Create(string make, string model, long travelledDistance,
+                           IEnumerable<int> selectedPartIds)
         {
+            var existingPartIds = this.db
+                .Parts
+                .Where(p => selectedPartIds.Contains(p.Id))
+                .Select(p => p.Id)
+                .ToList();
+
             var car = new Car
             {
                 Make = make,
                 Model = model,
                 TravelledDistance = travelledDistance
             };
+
+            foreach (var partId in existingPartIds)
+            {
+                car.Parts.Add(new PartCar { PartId = partId });
+            }
 
             this.db.Cars.Add(car);
             this.db.SaveChanges();

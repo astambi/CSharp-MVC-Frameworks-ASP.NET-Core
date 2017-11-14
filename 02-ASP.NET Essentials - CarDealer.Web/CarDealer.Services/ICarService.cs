@@ -9,6 +9,9 @@
 
         IEnumerable<CarWithPartsModel> AllWithParts();
 
-        void Create(string make, string model, long travelledDistance);
+        IEnumerable<CarBasicModel> AllBasic();
+
+        void Create(string make, string model, long travelledDistance, 
+                    IEnumerable<int> selectedPartIds);
     }
 }

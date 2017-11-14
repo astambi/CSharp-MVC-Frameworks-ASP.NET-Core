@@ -20,6 +20,19 @@
             this.db = db;
         }
 
+        public IEnumerable<CustomerBasicModel> AllBasic()
+        {
+            return this.db
+                .Customers
+                .OrderBy(c => c.Name)
+                .Select(c => new CustomerBasicModel
+                {
+                    Id = c.Id,
+                    Name = c.Name
+                })
+                .ToList();
+        }
+
         public IEnumerable<CustomerModel> AllOrdered(OrderDirection order)
         {
             var customersQuery = this.db.Customers.AsQueryable();

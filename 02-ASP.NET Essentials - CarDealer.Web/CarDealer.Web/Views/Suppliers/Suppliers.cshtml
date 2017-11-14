@@ -4,7 +4,10 @@
     ViewData["Title"] = "Suppliers By Type";
 }
 
-<h2>Suppliers by Type: @Model.Type.ToUpper()</h2>
+<h2>
+    Suppliers by Type: @Model.Type.ToUpper()
+    <a class="btn btn-lg btn-primary" href="/suppliers/create">Add Supplier</a>
+</h2>
 
 <table class="table  table-bordered table-hover table-striped ">
 

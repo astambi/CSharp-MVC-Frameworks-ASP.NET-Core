@@ -1,5 +1,6 @@
 ﻿namespace CarDealer.Web.Controllers
 {
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Rendering;
     using Models.Parts;
@@ -35,6 +36,7 @@
             return this.View(model);
         }
 
+        [Authorize]
         public IActionResult Create()
         {
             var model = new PartFormModel
@@ -45,6 +47,7 @@
             return this.View(model);
         }
 
+        [Authorize]
         [HttpPost]
         public IActionResult Create(PartFormModel model)
         {
@@ -68,11 +71,13 @@
             return RedirectToAction(nameof(All));
         }
 
+        [Authorize]
         public IActionResult Delete(int id)
         {
             return this.View(id);
         }
 
+        [Authorize]
         public IActionResult ConfirmDelete(int id)
         {
             this.partService.Delete(id);
@@ -80,6 +85,7 @@
             return RedirectToAction(nameof(All));
         }
 
+        [Authorize]
         public IActionResult Edit(int id)
         {
             var part = this.partService.GetById(id);
@@ -99,6 +105,7 @@
             return this.View(model);
         }
 
+        [Authorize]
         [HttpPost]
         public IActionResult Edit(int id, PartFormModel model)
         {

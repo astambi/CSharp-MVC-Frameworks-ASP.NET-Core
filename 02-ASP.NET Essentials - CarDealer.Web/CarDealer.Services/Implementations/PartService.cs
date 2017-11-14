@@ -8,7 +8,6 @@
 
     public class PartService : IPartService
     {
-
         private readonly CarDealerDbContext db;
 
         public PartService(CarDealerDbContext db)
@@ -20,6 +19,7 @@
         {
             return this.db
                 .Parts
+                .OrderByDescending(p => p.Id)
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize)
                 .Select(p => new PartListingModel
@@ -29,6 +29,19 @@
                     Price = p.Price,
                     Quantity = p.Quantity,
                     Supplier = p.Supplier.Name
+                })
+                .ToList();
+        }
+
+        public IEnumerable<PartBasicModel> AllBasic()
+        {
+            return this.db
+                .Parts
+                .OrderBy(p => p.Name)
+                .Select(p => new PartBasicModel
+                {
+                    Id = p.Id,
+                    Name = p.Name
                 })
                 .ToList();
         }

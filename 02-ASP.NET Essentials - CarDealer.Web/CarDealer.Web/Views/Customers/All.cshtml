@@ -4,7 +4,10 @@
     ViewData["Title"] = "All Customers";
 }
 
-<h2>All Customers</h2>
+<h2>
+    All Customers
+    <a class="btn btn-lg btn-primary" href="/customers/create">Add Customer</a>
+</h2>
 <h3>In @Model.OrderDirection.ToString().ToLower() order</h3>
 
 <table class="table table-hover table-bordered table-striped">

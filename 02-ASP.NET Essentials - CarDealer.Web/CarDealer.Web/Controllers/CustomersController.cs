@@ -1,5 +1,6 @@
 ﻿namespace CarDealer.Web.Controllers
 {
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Models.Customers;
     using Services;
@@ -42,12 +43,14 @@
             return this.View(totalSales);
         }
 
+        [Authorize]
         [Route(nameof(Create))]
         public IActionResult Create()
         {
             return this.View();
         }
 
+        [Authorize]
         [HttpPost]
         [Route(nameof(Create))]
         public IActionResult Create(CustomerFormModel model)
@@ -67,6 +70,7 @@
                 new { order = OrderDirection.Ascending.ToString() });
         }
 
+        [Authorize]
         [Route(nameof(Edit) + "/{id}")]
         public IActionResult Edit(int id)
         {
@@ -88,6 +92,7 @@
             return this.View(model);
         }
 
+        [Authorize]
         [HttpPost]
         [Route(nameof(Edit) + "/{id}")]
         public IActionResult Edit(int id, CustomerFormModel model)

@@ -1,0 +1,11 @@
+﻿@model int
+
+@{
+    ViewData["Title"] = "Delete Supplier";
+}
+<h2>Are you sure you want to delete this supplier and all the parts it supplies?</h2>
+
+<div class="btn-group">
+    <a class="btn btn-default" href="/suppliers/all">Back</a>
+    <a class="btn btn-danger" href="/suppliers/confirmdelete/@Model">Confirm Delete</a>
+</div>
