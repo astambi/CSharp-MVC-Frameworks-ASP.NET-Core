@@ -3,6 +3,7 @@
     using CarDealer.Data.Models;
     using Data;
     using Models.Sales;
+    using System;
     using System.Collections.Generic;
     using System.Linq;
 
@@ -28,8 +29,8 @@
                     Model = s.Car.Model,
                     TravelledDistance = s.Car.TravelledDistance,
                     Customer = s.Customer.Name,
-                    Discount = s.Discount
-                             + (s.Customer.IsYoungDriver ? AdditionalDiscount : 0),
+                    Discount = Math.Min(1,
+                            s.Discount + (s.Customer.IsYoungDriver ? AdditionalDiscount : 0)),
                     Price = s.Car.Parts.Sum(p => p.Part.Price)
                 })
                 .ToList();
@@ -46,8 +47,8 @@
             {
                 salesQuery = salesQuery
                     .Where(s => discountPercentage / 100.0 ==
-                            s.Discount
-                            + (s.Customer.IsYoungDriver ? AdditionalDiscount : 0));
+                            Math.Min(1,
+                            s.Discount + (s.Customer.IsYoungDriver ? AdditionalDiscount : 0)));
             }
 
             return salesQuery
@@ -58,8 +59,8 @@
                     Model = s.Car.Model,
                     TravelledDistance = s.Car.TravelledDistance,
                     Customer = s.Customer.Name,
-                    Discount = s.Discount
-                             + (s.Customer.IsYoungDriver ? AdditionalDiscount : 0),
+                    Discount = Math.Min(1,
+                            s.Discount + (s.Customer.IsYoungDriver ? AdditionalDiscount : 0)),
                     Price = s.Car.Parts.Sum(p => p.Part.Price)
                 })
                 .ToList();
@@ -76,8 +77,8 @@
                      Model = s.Car.Model,
                      TravelledDistance = s.Car.TravelledDistance,
                      Customer = s.Customer.Name,
-                     Discount = s.Discount
-                              + (s.Customer.IsYoungDriver ? AdditionalDiscount : 0),
+                     Discount = Math.Min(1,
+                               s.Discount + (s.Customer.IsYoungDriver ? AdditionalDiscount : 0)),
                      Price = s.Car.Parts.Sum(p => p.Part.Price)
                  })
                  .FirstOrDefault();
