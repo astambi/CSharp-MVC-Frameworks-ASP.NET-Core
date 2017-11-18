@@ -1,8 +1,8 @@
 ﻿namespace CarDealer.Data
 {
-    using Models;
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore;
+    using Models;
 
     public class CarDealerDbContext : IdentityDbContext<User>
     {
@@ -15,6 +15,8 @@
         public DbSet<Part> Parts { get; set; }
 
         public DbSet<Supplier> Suppliers { get; set; }
+
+        public DbSet<Log> Logs { get; set; }
 
         public CarDealerDbContext(DbContextOptions<CarDealerDbContext> options)
             : base(options)

@@ -1,5 +1,6 @@
 ﻿namespace CarDealer.Web.Controllers
 {
+    using CarDealer.Web.Infrastructure.Filters;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Models.Suppliers;
@@ -45,6 +46,7 @@
 
         [Authorize]
         [HttpPost]
+        [Log(actionName: "Add")]
         public IActionResult Create(SupplierFormModel model)
         {
             if (!this.ModelState.IsValid)
@@ -68,6 +70,7 @@
         }
 
         [Authorize]
+        [Log(actionName: "Delete")]
         public IActionResult ConfirmDelete(int id)
         {
             this.supplierService.Delete(id);
@@ -95,6 +98,7 @@
 
         [Authorize]
         [HttpPost]
+        [Log]
         public IActionResult Edit(int id, SupplierFormModel model)
         {
             if (!this.ModelState.IsValid)
