@@ -1,0 +1,87 @@
+﻿@model UserDetailsModel
+
+@{
+    ViewData["Title"] = "User Profile";
+
+    // Custom Profile Layout => Comment to use the default layout
+    Layout = "~/Views/Shared/_LayoutNavBarLeft.cshtml";
+}
+
+<h2>
+    @Model.Username.ToUpper()
+    @if (Model.IsOwner)
+    {
+        <a asp-controller="Users" asp-action=@(nameof(UsersController.Edit)) class="btn btn-primary">Edit Profile</a>
+        @Html.Partial("_LastLoginTime", Model.LastLoginTime)
+    }
+</h2>
+
+<table class="table">
+    <tr>
+        <th><label asp-for="Email"></label></th>
+        <td>@Model.Email</td>
+    </tr>
+    <tr>
+        <th><label asp-for="Phone"></label></th>
+        <td>@Model.Phone</td>
+    </tr>
+    <tr>
+        <th><label asp-for="Cameras"></label></th>
+        <td>@Model.CamerasInStock in stock / @Model.CamerasOutOfStock out of stock</td>
+    </tr>
+</table>
+
+<h2>Cameras:</h2>
+@if (Model.Cameras.Any())
+{
+    <table class="table">
+        @foreach (var camera in Model.Cameras)
+        {
+            <tr>
+                <th rowspan="2">
+                    <img src="@camera.ImageUrl" alt="@camera.Make @camera.Model" height="100" />
+                </th>
+                <th>
+                    <h3>@camera.Make @camera.Model</h3>
+                </th>
+                <th class="text-right">
+                    <h3>@camera.Price.ToCurrency()</h3>
+                </th>
+                @if (User.Identity.Name == Model.Username)
+                {
+                    <th>
+                        <h3>
+                            <a asp-controller="Cameras" asp-action=@(nameof(CamerasController.Edit))
+                               asp-route-id=@camera.Id class="btn btn-block btn-primary">Edit</a>
+                        </h3>
+                    </th>
+                }
+            </tr>
+            <tr>
+                <th>
+                    <a asp-controller="Cameras" asp-action=@nameof(CamerasController.Details)
+                       asp-route-id=@camera.Id>Details</a>
+                </th>
+                @if (camera.InStock)
+                {
+                    <th class="text-success text-right">IN STOCK</th>
+                }
+                else
+                {
+                    <th class="text-danger text-right">OUT OF STOCK</th>
+                }
+                @if (User.Identity.Name == Model.Username)
+                {
+                    <th>
+                        <a asp-controller="Cameras" asp-action=@(nameof(CamerasController.Delete))
+                           asp-route-id=@camera.Id class="btn btn-block btn-warning">Delete</a>
+                    </th>
+                }
+            </tr>
+        }
+    </table>
+}
+else
+{
+    <div>The user is not selling any cameras. Go to <a asp-controller="Cameras" asp-action=@nameof(CamerasController.All)>cameras page</a> to find more offers of other users.</div>
+}

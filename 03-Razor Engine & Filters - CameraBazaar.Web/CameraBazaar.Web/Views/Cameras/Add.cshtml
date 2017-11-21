@@ -1,0 +1,14 @@
+﻿@model CameraViewModel
+
+@{
+    ViewData["Title"] = "Add Camera";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+@Html.Partial("_CameraForm", Model)
+
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}

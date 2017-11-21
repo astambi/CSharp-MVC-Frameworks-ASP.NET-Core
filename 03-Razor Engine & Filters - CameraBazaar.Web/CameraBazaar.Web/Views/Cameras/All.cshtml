@@ -1,0 +1,38 @@
+﻿@model IEnumerable<CameraListingModel>
+
+@{
+    ViewData["Title"] = "All Cameras";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<table class="table">
+    @foreach (var camera in Model)
+    {
+        <tr>
+            <th rowspan="2">
+                <img src="@camera.ImageUrl" alt="@camera.Make @camera.Model" height="100" />
+            </th>
+            <th>
+                <h3>@camera.Make @camera.Model</h3>
+            </th>
+            <th class="text-right">
+                <h3>@camera.Price.ToCurrency()</h3>
+            </th>
+        </tr>
+        <tr>
+            <th>
+                <a asp-controller="Cameras" asp-action=@nameof(CamerasController.Details)
+                   asp-route-id=@camera.Id>Details</a>
+            </th>
+            @if (camera.InStock)
+            {
+                <th class="text-success text-right">IN STOCK</th>
+            }
+            else
+            {
+                <th class="text-danger text-right">OUT OF STOCK</th>
+            }
+        </tr>
+    }
+</table>

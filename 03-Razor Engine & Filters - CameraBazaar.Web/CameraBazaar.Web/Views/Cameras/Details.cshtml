@@ -1,0 +1,27 @@
+﻿@model CameraDetailsModel
+
+<h1>
+    <strong>
+        @Model.Make @Model.Model - @Model.Price.ToCurrency() -
+        @if (Model.InStock)
+        {
+            <span class="text-success">IN STOCK</span>
+        }
+        else
+        {
+            <span class="text-danger">OUT OF STOCK</span>
+        }
+    </strong>
+</h1>
+
+<h3>
+    Seller
+    <a asp-controller="Users" asp-action=@nameof(UsersController.Profile)
+       asp-route-username=@Model.UserName>@(Model.UserName.ToUpper())</a>
+</h3>
+
+<div>
+    <img src="@Model.ImageUrl" height="200" alt="@Model.Make @Model.Model" />
+</div>
+
+@Html.Partial("_CameraDetails", Model)

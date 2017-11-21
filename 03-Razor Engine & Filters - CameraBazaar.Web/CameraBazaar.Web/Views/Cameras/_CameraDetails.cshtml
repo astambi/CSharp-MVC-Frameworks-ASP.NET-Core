@@ -1,0 +1,39 @@
+﻿@model CameraDetailsModel
+
+<div class=" container">
+    <table class="table table-hover">
+        <tr>
+            <th class="text-right"><label asp-for="IsFullFrame"></label></th>
+            <td>@(Model.IsFullFrame ? "Yes" : "No")</td>
+        </tr>
+        <tr>
+            <th class="text-right"><label asp-for="MinShutterSpeed"></label></th>
+            <td>@Model.MinShutterSpeed"</td>
+        </tr>
+        <tr>
+            <th class="text-right"><label asp-for="MaxShutterSpeed"></label></th>
+            <td>1/@Model.MaxShutterSpeed</td>
+        </tr>
+        <tr>
+            <th class="text-right"><label asp-for="MinISO"></label></th>
+            <td>@((int)Model.MinISO)</td>
+        </tr>
+        <tr>
+            <th class="text-right"><label asp-for="MaxISO"></label></th>
+            <td>@Model.MaxISO</td>
+        </tr>
+        <tr>
+            <th class="text-right"><label asp-for="VideoResolution"></label></th>
+            <td>@Model.VideoResolution</td>
+        </tr>
+        <tr>
+            <th class="text-right"><label asp-for="LightMeterings"></label></th>
+            <td>@Model.LightMeterings</td>
+        </tr>
+        <tr>
+            <th class="text-right"><label asp-for="Description"></label></th>
+            <td>@Model.Description</td>
+        </tr>
+        <tr><th></th><td></td></tr>
+    </table>
+</div>
