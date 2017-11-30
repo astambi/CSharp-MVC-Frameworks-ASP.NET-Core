@@ -17,7 +17,8 @@
             <div class="panel panel-primary">
                 <div class="panel-heading">
                     <h3 class="panel-title text-center">
-                        <a asp-action=@(nameof(CoursesController.Details))
+                        <a asp-controller="Courses"
+                           asp-action=@(nameof(CoursesController.Details))
                            asp-route-id=@course.Id>@course.Name</a>
                     </h3>
                 </div>

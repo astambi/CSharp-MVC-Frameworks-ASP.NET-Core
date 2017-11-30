@@ -12,6 +12,7 @@
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
+    using Web.Controllers;
 
     public class Startup
     {
@@ -89,6 +90,16 @@
 
             app.UseMvc(routes =>
             {
+                // Users Profile Route
+                routes.MapRoute(
+                    name: "profile",
+                    template: "users/{username}",
+                    defaults: new
+                    {
+                        controller = "Users",
+                        action = nameof(UsersController.Profile)
+                    });
+
                 //Friendly URL blog article routing
                 routes.MapRoute(
                     name: "blog",

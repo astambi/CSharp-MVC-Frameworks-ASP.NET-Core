@@ -2,6 +2,7 @@
 {
     using AutoMapper.QueryableExtensions;
     using Data;
+    using Data.Models;
     using Microsoft.EntityFrameworkCore;
     using Models;
     using System;
@@ -18,20 +19,88 @@
             this.db = db;
         }
 
-        public async Task<IEnumerable<CourseListingServiceModel>> AllActive()
+        public async Task<IEnumerable<CourseListingServiceModel>> AllActiveAsync()
             => await this.db
             .Courses
-            .Where(c => c.StartDate >= DateTime.UtcNow)
+            .Where(c => c.StartDate >= DateTime.UtcNow.Date)
             .OrderByDescending(c => c.StartDate)
             .ThenBy(c => c.Name)
             .ProjectTo<CourseListingServiceModel>()
             .ToListAsync();
 
-        public async Task<CourseDetailsServiceModel> ByIdAsync(int id)
+        public async Task<TModel> ByIdAsync<TModel>(int id) where TModel : class
             => await this.db
             .Courses
             .Where(c => c.Id == id)
-            .ProjectTo<CourseDetailsServiceModel>()
+            .ProjectTo<TModel>()
+            .FirstOrDefaultAsync();
+
+        public async Task<bool> IsUserSignedInCourseAsync(int courseId, string userId)
+            => await this.db
+            .Courses
+            .AnyAsync(c => c.Id == courseId &&
+                           c.Students.Any(s => s.StudentId == userId));
+
+        public async Task<bool> SignUpStudentAsync(int courseId, string studentId)
+        {
+            var courseInfo = await GetCourseInfo(courseId, studentId);
+
+            if (courseInfo == null ||
+                courseInfo.StartDate < DateTime.UtcNow.Date ||
+                courseInfo.IsStudentEnrolledInCourse)
+            {
+                return false;
+            }
+
+            var studentInCourse = new StudentCourse
+            {
+                CourseId = courseId,
+                StudentId = studentId
+            };
+
+            await this.db.AddAsync(studentInCourse);
+            await this.db.SaveChangesAsync();
+
+            return true;
+        }
+
+        public async Task<bool> SignOutStudentAsync(int courseId, string studentId)
+        {
+            var courseInfo = await GetCourseInfo(courseId, studentId);
+
+            if (courseInfo == null ||
+                courseInfo.StartDate < DateTime.UtcNow.Date ||
+                !courseInfo.IsStudentEnrolledInCourse)
+            {
+                return false;
+            }
+
+            // NB! Table not in the the DbSet! => with SelectMany
+            //var studentCourse = await this.db.Courses
+            //    .Where(c => c.Id == courseId)
+            //    .SelectMany(c => c.Students)
+            //    .Where(sc => sc.StudentId == studentId)
+            //    .FirstOrDefaultAsync();
+            //this.db.Remove(studentCourse);
+
+            // NB! Table not in the DbSet! => use primary key values, observe keys order!
+            var studentInCourse = await this.db.FindAsync<StudentCourse>(studentId, courseId);
+            this.db.Remove(studentInCourse);
+
+            await this.db.SaveChangesAsync();
+
+            return true;
+        }
+
+        private async Task<CourseInfoServiceModel> GetCourseInfo(int courseId, string studentId)
+            => await this.db
+            .Courses
+            .Where(c => c.Id == courseId)
+            .Select(c => new CourseInfoServiceModel
+            {
+                StartDate = c.StartDate,
+                IsStudentEnrolledInCourse = c.Students.Any(s => s.StudentId == studentId)
+            })
             .FirstOrDefaultAsync();
     }
 }

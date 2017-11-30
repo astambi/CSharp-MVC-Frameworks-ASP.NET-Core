@@ -6,8 +6,14 @@
 
     public interface ICourseService
     {
-        Task<IEnumerable<CourseListingServiceModel>> AllActive();
+        Task<IEnumerable<CourseListingServiceModel>> AllActiveAsync();
 
-        Task<CourseDetailsServiceModel> ByIdAsync(int id);
+        Task<TModel> ByIdAsync<TModel>(int id) where TModel : class;
+
+        Task<bool> IsUserSignedInCourseAsync(int courseId, string userId);
+
+        Task<bool> SignUpStudentAsync(int courseId, string userId);
+
+        Task<bool> SignOutStudentAsync(int courseId, string userId);
     }
 }

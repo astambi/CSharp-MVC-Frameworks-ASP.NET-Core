@@ -16,7 +16,7 @@
         }
 
         public async Task<IActionResult> Index()
-            => View(await this.courseService.AllActive());
+            => View(await this.courseService.AllActiveAsync());
 
         public IActionResult Error
             => View(new ErrorViewModel
