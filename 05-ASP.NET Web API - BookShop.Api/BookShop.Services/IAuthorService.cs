@@ -7,11 +7,11 @@
 
     public interface IAuthorService
     {
+        Task<IEnumerable<BookWithCategoriesServiceModel>> All(int authorId);
+
         Task<int> Create(string firstName, string lastName);
 
         Task<AuthorDetailsServiceModel> Details(int id);
-
-        Task<IEnumerable<BookWithCategoriesServiceModel>> BooksByAuthor(int authorId);
 
         Task<bool> Exists(int id);
     }

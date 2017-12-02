@@ -19,7 +19,7 @@
             this.db = db;
         }
 
-        public async Task<IEnumerable<BookWithCategoriesServiceModel>> BooksByAuthor(int authorId)
+        public async Task<IEnumerable<BookWithCategoriesServiceModel>> All(int authorId)
             => await this.db
             .Books
             .Where(b => b.AuthorId == authorId)

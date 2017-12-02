@@ -9,8 +9,6 @@
     {
         Task<IEnumerable<BookListingServiceModel>> All(string searchTerm);
 
-        Task<BookDetailsServiceModel> Details(int id);
-
         Task<int> Create(
             string title,
             string description,
@@ -22,9 +20,11 @@
             int authorId,
             string categories);
 
-        Task<bool> Exists(int id);
-
         Task Delete(int id);
+
+        Task<BookDetailsServiceModel> Details(int id);
+
+        Task<bool> Exists(int id);
 
         Task Update(
             int id,

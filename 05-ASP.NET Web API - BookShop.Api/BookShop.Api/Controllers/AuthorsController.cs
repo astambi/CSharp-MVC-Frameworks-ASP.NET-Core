@@ -21,6 +21,10 @@
         public async Task<IActionResult> Get(int id)
             => this.OkOrNotFound(await this.authorService.Details(id));
 
+        [HttpGet(WithId + "/books")]
+        public async Task<IActionResult> GetBooks(int id)
+            => this.OkOrNotFound(await this.authorService.All(id));
+
         [HttpPost]
         [ValidateModelState]
         public async Task<IActionResult> Post([FromBody]AuthorRequestModel model)
@@ -31,9 +35,5 @@
 
             return Ok(id);
         }
-
-        [HttpGet(WithId + "/books")]
-        public async Task<IActionResult> GetBooks(int id)
-            => this.OkOrNotFound(await this.authorService.BooksByAuthor(id));
     }
 }

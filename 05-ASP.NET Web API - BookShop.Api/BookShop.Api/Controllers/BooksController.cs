@@ -29,6 +29,20 @@
         public async Task<IActionResult> Get([FromQuery]string search = "")
             => this.OkOrNotFound(await this.bookService.All(search));
 
+        [HttpDelete(WithId)]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var bookExists = await this.bookService.Exists(id);
+            if (!bookExists)
+            {
+                return NotFound("Book does not exist.");
+            }
+
+            await this.bookService.Delete(id);
+
+            return this.Ok();
+        }
+
         [HttpPost]
         [ValidateModelState]
         public async Task<IActionResult> Post([FromBody]BookWithCategoriesRequestModel model)
@@ -51,20 +65,6 @@
                 model.Categories);
 
             return Ok(id);
-        }
-
-        [HttpDelete(WithId)]
-        public async Task<IActionResult> Delete(int id)
-        {
-            var bookExists = await this.bookService.Exists(id);
-            if (!bookExists)
-            {
-                return NotFound("Book does not exist.");
-            }
-
-            await this.bookService.Delete(id);
-
-            return this.Ok();
         }
 
         [HttpPut(WithId)]

@@ -22,13 +22,6 @@
             this.db = db;
         }
 
-        public async Task<BookDetailsServiceModel> Details(int id)
-            => await this.db
-            .Books
-            .Where(b => b.Id == id)
-            .ProjectTo<BookDetailsServiceModel>()
-            .FirstOrDefaultAsync();
-
         public async Task<IEnumerable<BookListingServiceModel>> All(string searchTerm)
             => await this.db
             .Books
@@ -56,7 +49,9 @@
 
             var existingCategories = await this.db
                 .Categories
-                .Where(c => categoryNames.Contains(c.Name.ToLower()))
+                .Where(c => categoryNames
+                            .Select(cn => cn.ToLower())
+                            .Contains(c.Name.ToLower()))
                 .ToListAsync();
 
             var allCategories = new List<Category>(existingCategories);
@@ -99,9 +94,6 @@
             return book.Id;
         }
 
-        public async Task<bool> Exists(int id)
-            => await this.db.Books.AnyAsync(b => b.Id == id);
-
         public async Task Delete(int id)
         {
             var book = await this.db.Books.FindAsync(id);
@@ -114,15 +106,25 @@
             await this.db.SaveChangesAsync();
         }
 
+        public async Task<BookDetailsServiceModel> Details(int id)
+            => await this.db
+            .Books
+            .Where(b => b.Id == id)
+            .ProjectTo<BookDetailsServiceModel>()
+            .FirstOrDefaultAsync();
+
+        public async Task<bool> Exists(int id)
+            => await this.db.Books.AnyAsync(b => b.Id == id);
+
         public async Task Update(
             int id,
-            string title, 
-            string description, 
-            decimal price, 
-            int copies, 
-            int? edition, 
-            int? ageRestriction, 
-            DateTime releaseDate, 
+            string title,
+            string description,
+            decimal price,
+            int copies,
+            int? edition,
+            int? ageRestriction,
+            DateTime releaseDate,
             int authorId)
         {
             var book = await this.db.Books.FindAsync(id);
