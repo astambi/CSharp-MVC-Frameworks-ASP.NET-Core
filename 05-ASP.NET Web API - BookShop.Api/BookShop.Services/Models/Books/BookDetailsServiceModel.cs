@@ -1,8 +1,8 @@
 ﻿namespace BookShop.Services.Models.Books
 {
     using AutoMapper;
+    using BookShop.Models;
     using Common.Mapping;
-    using Data.Models;
     using System.Linq;
 
     public class BookDetailsServiceModel : BookWithCategoriesServiceModel, IMapFrom<Book>, IHaveCustomMapping

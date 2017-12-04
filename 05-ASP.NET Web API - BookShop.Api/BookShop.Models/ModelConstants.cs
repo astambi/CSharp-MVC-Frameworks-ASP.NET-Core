@@ -1,6 +1,6 @@
-﻿namespace BookShop.Data
+﻿namespace BookShop.Models
 {
-    public class DataConstants
+    public class ModelConstants
     {
         public const int BookTitleMinLength = 2;
         public const int BookTitleMaxLength = 100;

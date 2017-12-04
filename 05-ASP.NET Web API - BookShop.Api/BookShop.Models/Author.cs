@@ -1,9 +1,9 @@
-﻿namespace BookShop.Data.Models
+﻿namespace BookShop.Models
 {
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
-    using static DataConstants;
+    using static ModelConstants;
 
     public class Author
     {

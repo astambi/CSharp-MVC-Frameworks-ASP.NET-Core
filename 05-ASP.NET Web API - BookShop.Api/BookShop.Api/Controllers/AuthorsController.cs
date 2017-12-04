@@ -30,8 +30,8 @@
         public async Task<IActionResult> Post([FromBody]AuthorRequestModel model)
         {
             var id = await this.authorService.Create(
-                model.FirstName,
-                model.LastName);
+                model.FirstName.Trim(),
+                model.LastName.Trim());
 
             return Ok(id);
         }

@@ -43,6 +43,8 @@
         [ValidateModelState]
         public async Task<IActionResult> Post([FromBody]CategoryRequestModel model)
         {
+            model.Name = model.Name.Trim();
+
             var categoryNameExists = await this.categoryService.Exists(model.Name);
             if (categoryNameExists)
             {
@@ -64,6 +66,8 @@
             {
                 return NotFound("Category does not exist.");
             }
+
+            model.Name = model.Name.Trim();
 
             var categoryNameExists = await this.categoryService.Exists(id, model.Name);
             if (categoryNameExists)

@@ -54,8 +54,8 @@
             }
 
             var id = await this.bookService.Create(
-                model.Title,
-                model.Description,
+                model.Title.Trim(),
+                model.Description.Trim(),
                 model.Price,
                 model.Copies,
                 model.Edition,
@@ -85,8 +85,8 @@
 
             await this.bookService.Update(
                 id,
-                model.Title,
-                model.Description,
+                model.Title.Trim(),
+                model.Description.Trim(),
                 model.Price,
                 model.Copies,
                 model.Edition,

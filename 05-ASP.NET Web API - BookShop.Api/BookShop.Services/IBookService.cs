@@ -16,7 +16,7 @@
             int copies,
             int? edition,
             int? ageRestriction,
-            DateTime releaseDate,
+            DateTime? releaseDate,
             int authorId,
             string categories);
 
@@ -34,7 +34,7 @@
             int copies,
             int? edition,
             int? ageRestriction,
-            DateTime releaseDate,
+            DateTime? releaseDate,
             int authorId);
     }
 }

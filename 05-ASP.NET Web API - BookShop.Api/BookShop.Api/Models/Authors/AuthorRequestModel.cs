@@ -2,7 +2,7 @@
 {
     using System.ComponentModel.DataAnnotations;
 
-    using static Data.DataConstants;
+    using static BookShop.Models.ModelConstants;
 
     public class AuthorRequestModel
     {

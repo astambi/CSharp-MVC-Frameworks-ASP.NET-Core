@@ -1,4 +1,4 @@
-﻿namespace BookShop.Data.Models
+﻿namespace BookShop.Models
 {
     public class CategoryBook
     {

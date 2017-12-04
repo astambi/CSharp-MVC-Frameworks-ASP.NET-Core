@@ -1,8 +1,8 @@
 ﻿namespace BookShop.Services.Implementations
 {
     using AutoMapper.QueryableExtensions;
+    using BookShop.Models;
     using Data;
-    using Data.Models;
     using Microsoft.EntityFrameworkCore;
     using Models.Authors;
     using Models.Books;

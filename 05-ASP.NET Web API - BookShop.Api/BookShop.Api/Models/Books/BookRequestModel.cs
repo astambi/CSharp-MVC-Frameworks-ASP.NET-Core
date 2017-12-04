@@ -3,7 +3,7 @@
     using System;
     using System.ComponentModel.DataAnnotations;
 
-    using static Data.DataConstants;
+    using static BookShop.Models.ModelConstants;
 
     public class BookRequestModel
     {
@@ -21,12 +21,13 @@
         [Range(0, double.MaxValue)]
         public int Copies { get; set; }
 
-        public int? Edition { get; set; }
+        public int? Edition { get; set; } = 1;
 
         public int? AgeRestriction { get; set; }
 
+        [Required]
         [DataType(DataType.Date)]
-        public DateTime ReleaseDate { get; set; }
+        public DateTime? ReleaseDate { get; set; }
 
         public int AuthorId { get; set; }
     }

@@ -1,7 +1,7 @@
 ﻿namespace BookShop.Services.Models.Categories
 {
+    using BookShop.Models;
     using Common.Mapping;
-    using Data.Models;
 
     public class CategoryServiceModel : IMapFrom<Category>
     {

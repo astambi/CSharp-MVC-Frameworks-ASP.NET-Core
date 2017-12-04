@@ -1,10 +1,10 @@
-﻿namespace BookShop.Data.Models
+﻿namespace BookShop.Models
 {
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
-    using static DataConstants;
+    using static ModelConstants;
 
     public class Book
     {
@@ -24,12 +24,13 @@
         [Range(0, double.MaxValue)]
         public int Copies { get; set; }
 
-        public int? Edition { get; set; }
+        public int? Edition { get; set; } = 1;
 
         public int? AgeRestriction { get; set; }
 
+        [Required]
         [DataType(DataType.Date)]
-        public DateTime ReleaseDate { get; set; }
+        public DateTime? ReleaseDate { get; set; }
 
         public int AuthorId { get; set; }
 

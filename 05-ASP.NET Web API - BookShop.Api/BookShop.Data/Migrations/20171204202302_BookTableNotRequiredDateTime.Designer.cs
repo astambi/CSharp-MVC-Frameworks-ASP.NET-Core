@@ -4,12 +4,14 @@ namespace BookShop.Data.Migrations
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Infrastructure;
     using Microsoft.EntityFrameworkCore.Metadata;
+    using Microsoft.EntityFrameworkCore.Migrations;
     using System;
 
     [DbContext(typeof(BookShopDbContext))]
-    partial class BookShopDbContextModelSnapshot : ModelSnapshot
+    [Migration("20171204202302_BookTableNotRequiredDateTime")]
+    partial class BookTableNotRequiredDateTime
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -52,8 +54,7 @@ namespace BookShop.Data.Migrations
 
                     b.Property<decimal>("Price");
 
-                    b.Property<DateTime?>("ReleaseDate")
-                        .IsRequired();
+                    b.Property<DateTime?>("ReleaseDate");
 
                     b.Property<string>("Title")
                         .IsRequired()

@@ -1,8 +1,8 @@
 ﻿namespace BookShop.Services.Models.Authors
 {
     using AutoMapper;
+    using BookShop.Models;
     using Common.Mapping;
-    using Data.Models;
     using System.Collections.Generic;
     using System.Linq;
 

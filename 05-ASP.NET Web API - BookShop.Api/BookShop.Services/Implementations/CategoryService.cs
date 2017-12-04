@@ -1,8 +1,8 @@
 ﻿namespace BookShop.Services.Implementations
 {
     using AutoMapper.QueryableExtensions;
+    using BookShop.Models;
     using Data;
-    using Data.Models;
     using Microsoft.EntityFrameworkCore;
     using Models.Categories;
     using System.Collections.Generic;
@@ -77,9 +77,12 @@
                 return;
             }
 
-            category.Name = name;
+            if (category.Name != name)
+            {
+                category.Name = name;
 
-            await this.db.SaveChangesAsync();
+                await this.db.SaveChangesAsync();
+            }
         }
     }
 }

@@ -1,9 +1,9 @@
 ﻿namespace BookShop.Services.Implementations
 {
     using AutoMapper.QueryableExtensions;
+    using BookShop.Models;
     using Common.Extensions;
     using Data;
-    using Data.Models;
     using Microsoft.EntityFrameworkCore;
     using Models.Books;
     using System;
@@ -38,37 +38,10 @@
             int copies,
             int? edition,
             int? ageRestriction,
-            DateTime releaseDate,
+            DateTime? releaseDate,
             int authorId,
             string categories)
         {
-            // Get categories
-            var categoryNames = categories
-                .Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
-                .ToHashSet();
-
-            var existingCategories = await this.db
-                .Categories
-                .Where(c => categoryNames
-                            .Select(cn => cn.ToLower())
-                            .Contains(c.Name.ToLower()))
-                .ToListAsync();
-
-            var allCategories = new List<Category>(existingCategories);
-
-            // Create new Categories
-            foreach (var categoryName in categoryNames)
-            {
-                if (!existingCategories.Any(c => c.Name.ToLower() == categoryName.ToLower()))
-                {
-                    var category = new Category { Name = categoryName };
-                    this.db.Categories.Add(category);
-                    allCategories.Add(category);
-                }
-            }
-
-            await this.db.SaveChangesAsync();
-
             // Create book
             var book = new Book
             {
@@ -82,10 +55,41 @@
                 AgeRestriction = ageRestriction
             };
 
-            // Add Book Categories
-            foreach (var category in allCategories)
+            // Add Categories
+            if (!string.IsNullOrWhiteSpace(categories))
             {
-                book.Categories.Add(new CategoryBook { CategoryId = category.Id });
+                // Get categories
+                var categoryNames = categories
+                    .Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
+                    .ToHashSet();
+
+                var existingCategories = await this.db
+                    .Categories
+                    .Where(c => categoryNames
+                                .Select(cn => cn.ToLower())
+                                .Contains(c.Name.ToLower()))
+                    .ToListAsync();
+
+                var allCategories = new List<Category>(existingCategories);
+
+                // Create new Categories
+                foreach (var categoryName in categoryNames)
+                {
+                    if (!existingCategories.Any(c => c.Name.ToLower() == categoryName.ToLower()))
+                    {
+                        var category = new Category { Name = categoryName };
+                        this.db.Categories.Add(category);
+                        allCategories.Add(category);
+                    }
+                }
+
+                await this.db.SaveChangesAsync();
+
+                // Add Categories to Book
+                foreach (var category in allCategories)
+                {
+                    book.Categories.Add(new CategoryBook { CategoryId = category.Id });
+                }
             }
 
             await this.db.AddAsync(book);
@@ -124,7 +128,7 @@
             int copies,
             int? edition,
             int? ageRestriction,
-            DateTime releaseDate,
+            DateTime? releaseDate,
             int authorId)
         {
             var book = await this.db.Books.FindAsync(id);
@@ -133,16 +137,26 @@
                 return;
             }
 
-            book.AuthorId = authorId;
-            book.Title = title;
-            book.Description = description;
-            book.Price = price;
-            book.Copies = copies;
-            book.Edition = edition;
-            book.ReleaseDate = releaseDate;
-            book.AgeRestriction = ageRestriction;
+            if (book.AuthorId != authorId ||
+                book.Title != title ||
+                book.Description != description ||
+                book.Price != price ||
+                book.Copies != copies ||
+                book.Edition != edition ||
+                book.ReleaseDate != releaseDate ||
+                book.AgeRestriction != ageRestriction)
+            {
+                book.AuthorId = authorId;
+                book.Title = title;
+                book.Description = description;
+                book.Price = price;
+                book.Copies = copies;
+                book.Edition = edition;
+                book.ReleaseDate = releaseDate;
+                book.AgeRestriction = ageRestriction;
 
-            await this.db.SaveChangesAsync();
+                await this.db.SaveChangesAsync();
+            }            
         }
     }
 }

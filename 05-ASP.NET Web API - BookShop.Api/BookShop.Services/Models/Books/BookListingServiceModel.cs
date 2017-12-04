@@ -1,7 +1,7 @@
 ﻿namespace BookShop.Services.Models.Books
 {
+    using BookShop.Models;
     using Common.Mapping;
-    using Data.Models;
 
     public class BookListingServiceModel : IMapFrom<Book>
     {
