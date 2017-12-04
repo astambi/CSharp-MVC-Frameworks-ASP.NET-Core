@@ -37,7 +37,6 @@
         public async Task<IActionResult> Students(int id)
         {
             var userId = this.userManager.GetUserId(this.User);
-
             if (!await this.trainerService.IsTrainer(id, userId))
             {
                 return NotFound();
@@ -59,17 +58,15 @@
             }
 
             var userId = this.userManager.GetUserId(this.User);
-
             if (!await this.trainerService.IsTrainer(id, userId))
             {
                 return BadRequest();
             }
 
             var success = await this.trainerService.AddGradeAsync(id, studentId, grade);
-
             if (!success)
             {
-                return RedirectToAction(nameof(Students), new { id });
+                return BadRequest();
             }
 
             return this.RedirectToAction(nameof(Students), new { id });

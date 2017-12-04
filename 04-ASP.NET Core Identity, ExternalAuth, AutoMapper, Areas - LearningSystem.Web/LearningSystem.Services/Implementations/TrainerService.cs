@@ -2,12 +2,12 @@
 {
     using AutoMapper.QueryableExtensions;
     using Data;
+    using Data.Models;
     using Microsoft.EntityFrameworkCore;
     using Models;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
-    using LearningSystem.Data.Models;
 
     public class TrainerService : ITrainerService
     {
@@ -20,7 +20,8 @@
 
         public async Task<bool> AddGradeAsync(int courseId, string studentId, Grade grade)
         {
-            var studentInCourse = await this.db.FindAsync<StudentCourse>(studentId, courseId);
+            var studentInCourse = await this.db
+                .FindAsync<StudentCourse>(studentId, courseId); // NB keys order!
 
             if (studentInCourse == null)
             {

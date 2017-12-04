@@ -31,7 +31,7 @@
                         <form method="post"
                               asp-action=@nameof(TrainersController.GradeStudent)
                               asp-route-id=@Model.Course.Id>
-                            <input type="hidden" name="studentId" value=@student.Id/>
+                            <input type="hidden" name="studentId" value=@student.Id />
                             <select name="grade" asp-items=@(Html.GetEnumSelectList<Grade>())></select>
                             <input type="submit" class="btn btn-primary" value="Grade Student" />
                         </form>
