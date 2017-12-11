@@ -27,12 +27,37 @@
         }
 
         [Fact]
+        public void NewsController_ShouldHaveRouteAttribute()
+        {
+            // Arrange
+            var controllerType = typeof(NewsController);
+
+            // Act
+            var attributes = controllerType.GetCustomAttributes(true);
+
+            // Assert
+            Assert.True(attributes.Any(a => a.GetType() == typeof(RouteAttribute)));
+        }
+
+        [Fact]
+        public void GetAllNews_ShouldHaveHttpGetAttribute()
+        {
+            // Arrange
+            var method = typeof(NewsController)
+                        .GetMethod(nameof(NewsController.GetAllNews));
+
+            // Act
+            var attributes = method.GetCustomAttributes(true);
+
+            // Assert
+            Assert.True(attributes.Any(a => a.GetType() == typeof(HttpGetAttribute)));
+        }
+
+        [Fact]
         public void GetAllNews_ShouldReturnOkStatusCode()
         {
             // Arrange
-            var context = this.Context;
-            this.PopulateData(context);
-            var newsController = new NewsController(context);
+            var newsController = this.GetNewsControllerWithTestData();
 
             // Act
             var result = newsController.GetAllNews();
@@ -45,34 +70,46 @@
         public void GetAllNews_ShouldReturnCorrectData()
         {
             // Arrange
-            var context = this.Context;
-            this.PopulateData(context);
-            var newsController = new NewsController(context);
-            var testData = GetTestData();
+            var newsController = this.GetNewsControllerWithTestData();
 
             // Act
             var returnedModels = (newsController.GetAllNews() as OkObjectResult)
                                 .Value as IEnumerable<News>;
 
             // Assert
+            var testData = this.GetTestData();
             foreach (var returnedModel in returnedModels)
             {
                 var testModel = testData.FirstOrDefault(d => d.Id == returnedModel.Id);
+
                 Assert.NotNull(testModel);
                 Assert.True(this.CompareNewsExact(returnedModel, testModel));
             }
         }
 
         [Fact]
+        public void GetSingleNews_ShouldHaveHttpGetAttribute()
+        {
+            // Arrange
+            var method = typeof(NewsController)
+                        .GetMethod(nameof(NewsController.GetSingleNews));
+
+            // Act
+            var attributes = method.GetCustomAttributes(true);
+
+            // Assert
+            Assert.True(attributes.Any(a => a.GetType() == typeof(HttpGetAttribute)));
+        }
+
+        [Fact]
         public void GetSingleNewsWithIncorrectData_ShouldReturnBadRequestStatusCode()
         {
             // Arrange
-            var context = this.Context;
-            this.PopulateData(context);
-            var newsController = new NewsController(context);
+            var newsController = this.GetNewsControllerWithTestData();
+
+            var incorrectId = 100;
 
             // Act
-            var incorrectId = 100;
             var result = newsController.GetSingleNews(incorrectId);
 
             // Assert
@@ -83,13 +120,12 @@
         public void GetSingleNewsWithCorrectData_ShouldReturnOkStatusCode()
         {
             // Arrange
-            var context = this.Context;
-            this.PopulateData(context);
-            var newsController = new NewsController(context);
+            var newsController = this.GetNewsControllerWithTestData();
+
+            var correctId = this.GetTestData().First().Id;
 
             // Act
-            var id = this.GetTestData().First().Id;
-            var result = newsController.GetSingleNews(id);
+            var result = newsController.GetSingleNews(correctId);
 
             // Assert
             Assert.IsType<OkObjectResult>(result);
@@ -99,29 +135,58 @@
         public void GetSingleNewsWithCorrectData_ShouldReturnCorrectData()
         {
             // Arrange
-            var context = this.Context;
-            this.PopulateData(context);
-            var newsController = new NewsController(context);
+            var newsController = this.GetNewsControllerWithTestData();
+
+            var testModel = this.GetTestData().First();
 
             // Act
-            var testModel = this.GetTestData().First();
             var returnedModel = (newsController.GetSingleNews(testModel.Id) as OkObjectResult)
                                 .Value as News;
 
             // Assert
             Assert.NotNull(returnedModel);
-            Assert.True(this.CompareNewsExact(testModel, returnedModel));
+            Assert.True(this.CompareNewsExact(returnedModel, testModel));
+        }
+
+        [Fact]
+        public void PostNews_ShouldHaveHttpPostAttribute()
+        {
+            // Arrange
+            var method = typeof(NewsController)
+                        .GetMethod(nameof(NewsController.PostNews));
+
+            // Act
+            var attributes = method.GetCustomAttributes(true);
+
+            // Assert
+            Assert.True(attributes.Any(a => a.GetType() == typeof(HttpPostAttribute)));
+        }
+
+        [Fact]
+        public void PostNewsWithIncorrectData_ShouldReturnBadRequestStatusCode()
+        {
+            // Arrange
+            var newsController = this.GetNewsController();
+
+            var testData = this.GetTestData().First();
+            testData.Title = null; // with Required Attribute
+
+            newsController.ModelState.AddModelError("Invalid Data", "Invalid Data"); // NB testing for incorrect model state!
+
+            // Act
+            var result = newsController.PostNews(this.ProjectToNewsModel(testData));
+
+            // Assert
+            Assert.IsType<BadRequestObjectResult>(result);
         }
 
         [Fact]
         public void PostNewsWithCorrectData_ShouldReturnCreatedStatusCode()
         {
             // Arrange
-            var context = this.Context;
-            var newsController = new NewsController(context);
+            var newsController = this.GetNewsController();
 
             var testModel = this.GetTestData().First();
-            Assert.NotNull(testModel);
 
             // Act
             var result = newsController.PostNews(this.ProjectToNewsModel(testModel));
@@ -134,11 +199,9 @@
         public void PostNewsWithCorrectData_ShouldReturnCorrectData()
         {
             // Arrange
-            var context = this.Context;
-            var newsController = new NewsController(context);
+            var newsController = this.GetNewsController();
 
             var testModel = this.GetTestData().First();
-            Assert.NotNull(testModel);
 
             // Act
             var returnedModel =
@@ -151,87 +214,29 @@
         }
 
         [Fact]
-        public void PostNewsWithIncorrectData_ShouldReturnBadRequestStatusCode()
+        public void PutNews_ShouldHaveHttpPutAttribute()
         {
             // Arrange
-            var context = this.Context;
-            var newsController = new NewsController(context);
+            var method = typeof(NewsController)
+                        .GetMethod(nameof(NewsController.PutNews));
 
             // Act
-            newsController.ModelState.AddModelError("Invalid Data", "Invalid Data"); // testing for incorrect data!
-
-            var testModel = this.GetTestData().First();
-            var result = newsController.PostNews(this.ProjectToNewsModel(testModel));
+            var attributes = method.GetCustomAttributes(true);
 
             // Assert
-            Assert.IsType<BadRequestObjectResult>(result);
-        }
-
-        [Fact]
-        public void DeleteNewsWithIncorrectData_ShouldReturnBadRequestStatusCode()
-        {
-            // Arrange
-            var context = this.Context;
-            this.PopulateData(context);
-            var newsController = new NewsController(context);
-
-            // Act
-            newsController.ModelState.AddModelError("Invalid Data", "Invalid Data");
-
-            var incorrectId = 100;
-            var result = newsController.DeleteNews(incorrectId);
-
-            // Assert
-            Assert.IsType<BadRequestResult>(result);
-        }
-
-        [Fact]
-        public void DeleteNewsWithCorrectData_ShouldReturnOkStatusCode()
-        {
-            // Arrange
-            var context = this.Context;
-            this.PopulateData(context);
-            var newsController = new NewsController(context);
-
-            // Act
-            var testModel = this.GetTestData().First();
-            var result = newsController.DeleteNews(testModel.Id);
-
-            // Assert
-            Assert.IsType<OkResult>(result);
-        }
-
-        [Fact]
-        public void DeleteNewsWithCorrectData_ShouldRemoveItem()
-        {
-            // Arrange
-            var context = this.Context;
-            this.PopulateData(context);
-            var newsController = new NewsController(context);
-
-            var testData = this.GetTestData();
-
-            // Act
-            var testModel = testData.First();
-            var result = newsController.DeleteNews(testModel.Id);
-
-            var returnedModel = newsController.GetSingleNews(testModel.Id);
-
-            // Assert
-            Assert.IsType<NotFoundResult>(returnedModel);
+            Assert.True(attributes.Any(a => a.GetType() == typeof(HttpPutAttribute)));
         }
 
         [Fact]
         public void PutNewsWithIncorrectData_ShouldReturnBadRequestStatusCode()
         {
             // Arrange
-            var context = this.Context;
-            this.PopulateData(context);
-            var newsController = new NewsController(context);
+            var newsController = this.GetNewsControllerWithTestData();
 
-            // Act
             var incorrectId = 100;
             var testModel = this.ProjectToNewsModel(this.GetTestData().First());
+
+            // Act
             var result = newsController.PutNews(incorrectId, testModel);
 
             // Assert
@@ -242,16 +247,15 @@
         public void PutNewsWithInvalidModelState_ShouldReturnBadRequestStatusCode()
         {
             // Arrange
-            var context = this.Context;
-            this.PopulateData(context);
-            var newsController = new NewsController(context);
+            var newsController = this.GetNewsControllerWithTestData();
+
+            var testNews = this.GetTestData().First();
+            testNews.Title = null;
+
+            newsController.ModelState.AddModelError("Invalid Data", "Invalid Data"); // NB testing for incorrect model state!
 
             // Act
-            var testNews = this.GetTestData().First();
-            var testModel = this.ProjectToNewsModel(testNews);
-            newsController.ModelState.AddModelError("Invalid Data", "Invalid Data"); // testing for incorrect data!
-
-            var result = newsController.PutNews(testNews.Id, testModel);
+            var result = newsController.PutNews(testNews.Id, this.ProjectToNewsModel(testNews));
 
             // Assert
             Assert.IsType<BadRequestObjectResult>(result);
@@ -261,15 +265,15 @@
         public void PutNewsWithCorrectData_ShouldReturnOkStatusCode()
         {
             // Arrange
-            var context = this.Context;
-            this.PopulateData(context);
-            var newsController = new NewsController(context);
+            var newsController = this.GetNewsControllerWithTestData();
+
+            var testModel = this.GetTestData().First();
+            testModel.Title = "Updated Title";
+            testModel.Content = "Updated Content";
+            testModel.PublishDate = DateTime.UtcNow;
 
             // Act
-            var testNews = this.GetTestData().First();
-            var testModel = this.ProjectToNewsModel(testNews);
-
-            var result = newsController.PutNews(testNews.Id, testModel);
+            var result = newsController.PutNews(testModel.Id, this.ProjectToNewsModel(testModel));
 
             // Assert
             Assert.IsType<OkResult>(result);
@@ -279,28 +283,83 @@
         public void PutNewsWithCorrectData_ShouldUpdateItem()
         {
             // Arrange
-            var context = this.Context;
-            this.PopulateData(context);
-            var newsController = new NewsController(context);
+            var newsController = this.GetNewsControllerWithTestData();
 
-            // Act
-            var testNews = this.GetTestData().First();
-
-            var testModel = this.ProjectToNewsModel(testNews);
+            var testModel = this.GetTestData().First();
             testModel.Title = "Updated Title";
             testModel.Content = "Updated Content";
             testModel.PublishDate = DateTime.UtcNow;
 
-            var result = newsController.PutNews(testNews.Id, testModel);
-            var returnedModel = (newsController.GetSingleNews(testNews.Id) as OkObjectResult)
+            // Act
+            var result = newsController.PutNews(testModel.Id, this.ProjectToNewsModel(testModel));
+            var returnedModel = (newsController.GetSingleNews(testModel.Id) as OkObjectResult)
                                 .Value as News;
 
             // Assert
             Assert.NotNull(returnedModel);
-            Assert.Equal(testNews.Id, returnedModel.Id);
+            Assert.Equal(testModel.Id, returnedModel.Id);
             Assert.Equal(testModel.Title, returnedModel.Title);
             Assert.Equal(testModel.Content, returnedModel.Content);
             Assert.Equal(testModel.PublishDate, returnedModel.PublishDate);
+        }
+        [Fact]
+        public void DeleteNews_ShouldHaveHttpDeleteAttribute()
+        {
+            // Arrange
+            var method = typeof(NewsController)
+                        .GetMethod(nameof(NewsController.DeleteNews));
+
+            // Act
+            var attributes = method.GetCustomAttributes(true);
+
+            // Assert
+            Assert.True(attributes.Any(a => a.GetType() == typeof(HttpDeleteAttribute)));
+        }
+
+        [Fact]
+        public void DeleteNewsWithIncorrectData_ShouldReturnBadRequestStatusCode()
+        {
+            // Arrange
+            var newsController = this.GetNewsControllerWithTestData();
+
+            var incorrectId = 100;
+
+            // Act
+            var result = newsController.DeleteNews(incorrectId);
+
+            // Assert
+            Assert.IsType<BadRequestResult>(result);
+        }
+
+        [Fact]
+        public void DeleteNewsWithCorrectData_ShouldReturnOkStatusCode()
+        {
+            // Arrange
+            var newsController = this.GetNewsControllerWithTestData();
+
+            var testModel = this.GetTestData().First();
+
+            // Act
+            var result = newsController.DeleteNews(testModel.Id);
+
+            // Assert
+            Assert.IsType<OkResult>(result);
+        }
+
+        [Fact]
+        public void DeleteNewsWithCorrectData_ShouldRemoveItem()
+        {
+            // Arrange
+            var newsController = this.GetNewsControllerWithTestData();
+
+            var testModel = this.GetTestData().First();
+
+            // Act
+            var result = newsController.DeleteNews(testModel.Id);
+            var deletedModel = newsController.GetSingleNews(testModel.Id);
+
+            // Assert
+            Assert.IsType<NotFoundResult>(deletedModel);
         }
 
         private NewsModel ProjectToNewsModel(News model)
@@ -313,24 +372,54 @@
 
         private bool CompareNewsExact(News thisNews, News otherNews)
             => thisNews.Id == otherNews.Id
-            && thisNews.Title == otherNews.Title
-            && thisNews.Content == otherNews.Content
-            && thisNews.PublishDate == otherNews.PublishDate;
+                && thisNews.Title == otherNews.Title
+                && thisNews.Content == otherNews.Content
+                && thisNews.PublishDate == otherNews.PublishDate;
 
-        private IEnumerable<News> GetTestData()
-            => new List<News>
-            {
-                new News{Id = 1, Title = "Title1", Content = "Content1", PublishDate = DateTime.ParseExact("2017/12/09", "yyyy/MM/dd", CultureInfo.InvariantCulture) },
-                new News{Id = 2, Title = "Title2", Content = "Content2", PublishDate = DateTime.ParseExact("2017/11/09", "yyyy/MM/dd", CultureInfo.InvariantCulture) },
-                new News{Id = 3, Title = "Title3", Content = "Content3", PublishDate = DateTime.ParseExact("2017/10/09", "yyyy/MM/dd", CultureInfo.InvariantCulture) },
-                new News{Id = 4, Title = "Title4", Content = "Content4", PublishDate = DateTime.ParseExact("2017/03/09", "yyyy/MM/dd", CultureInfo.InvariantCulture) },
-                new News{Id = 5, Title = "Title5", Content = "Content5", PublishDate = DateTime.ParseExact("2015/12/09", "yyyy/MM/dd", CultureInfo.InvariantCulture) }
-            };
+        private NewsController GetNewsController()
+            => new NewsController(this.Context);
+
+        private NewsController GetNewsControllerWithTestData()
+        {
+            var context = this.Context;
+            this.PopulateData(context);
+            return new NewsController(context);
+        }
 
         private void PopulateData(NewsDbContext context)
         {
             context.News.AddRange(this.GetTestData());
             context.SaveChanges();
         }
+
+        private IEnumerable<News> GetTestData()
+            => new List<News>
+            {
+                new News{
+                    Id = 1,
+                    Title = "Title1",
+                    Content = "Content1",
+                    PublishDate = DateTime.ParseExact("2017/12/09", "yyyy/MM/dd", CultureInfo.InvariantCulture) },
+                new News{
+                    Id = 2,
+                    Title = "Title2",
+                    Content = "Content2",
+                    PublishDate = DateTime.ParseExact("2017/09/09", "yyyy/MM/dd", CultureInfo.InvariantCulture) },
+                new News{
+                    Id = 3,
+                    Title = "Title3",
+                    Content = "Content3",
+                    PublishDate = DateTime.ParseExact("2016/09/09", "yyyy/MM/dd", CultureInfo.InvariantCulture) },
+                new News{
+                    Id = 4,
+                    Title = "Title4",
+                    Content = "Content4",
+                    PublishDate = DateTime.ParseExact("2016/06/09", "yyyy/MM/dd", CultureInfo.InvariantCulture) },
+                new News{
+                    Id = 5,
+                    Title = "Title5",
+                    Content = "Content5",
+                    PublishDate = DateTime.ParseExact("2016/01/09", "yyyy/MM/dd", CultureInfo.InvariantCulture) }
+            };
     }
 }
