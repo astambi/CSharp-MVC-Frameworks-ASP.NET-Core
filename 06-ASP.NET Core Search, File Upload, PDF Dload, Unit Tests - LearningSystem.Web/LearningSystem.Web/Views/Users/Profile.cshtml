@@ -1,0 +1,39 @@
+﻿@model UserProfileServiceModel
+
+@{
+    ViewData["Title"] = $"{Model.UserName} Profile";
+}
+
+<h2>
+    @Model.Name (@Model.UserName)
+    @if (Model.UserName == User.Identity.Name)
+    {
+        <a asp-controller="Manage" asp-action=@nameof(ManageController.Index)
+           class="btn btn-primary">Edit Profile</a>
+    }
+</h2>
+
+<h4 class="text-muted">@Model.Birthdate.ToShortDateString()</h4>
+
+<table class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>Course</th>
+            <th>Grade</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var course in Model.Courses)
+        {
+            <tr>
+                <td>
+                    <a asp-controller="Courses" asp-action=@nameof(CoursesController.Details)
+                       asp-route-id=@course.Id>@course.Name</a>
+                </td>
+                <td class="text-center">
+                    @(course.Grade == null ? "No grade" : course.Grade.Value.ToString())
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

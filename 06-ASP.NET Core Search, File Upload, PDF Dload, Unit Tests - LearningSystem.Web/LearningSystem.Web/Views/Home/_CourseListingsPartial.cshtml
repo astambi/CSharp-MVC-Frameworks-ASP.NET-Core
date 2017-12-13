@@ -1,0 +1,23 @@
+﻿@model IEnumerable<CourseListingServiceModel>
+
+@foreach (var course in Model)
+{
+    <div class="col-md-4">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title text-center">
+                    <a asp-controller="Courses"
+                       asp-action=@(nameof(CoursesController.Details))
+                       asp-route-id=@course.Id>@course.Name</a>
+                </h3>
+            </div>
+            <div class="panel-body">
+                <h5 class="text-muted text-center">@course.StartDate.ToShortDateString() - @course.EndDate.ToShortDateString()</h5>
+                <h5 class="text-muted text-center">Trainer @course.Trainer</h5>
+                <img class="img-responsive" src="http://thecatapi.com/api/images/get?format=src&type=gif&@(Guid.NewGuid())" />
+                <br />
+                <div>@course.Description</div>
+            </div>
+        </div>
+    </div>
+}

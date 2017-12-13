@@ -1,0 +1,58 @@
+﻿@model CourseDetailsViewModel
+
+@{
+    ViewData["Title"] = "Course Details";
+}
+
+<h2>
+    @Model.Course.Name
+</h2>
+
+<h4 class="text-muted">@Model.Course.StartDate.ToShortDateString() - @Model.Course.EndDate.ToShortDateString() | Trainer @Model.Course.Trainer</h4>
+
+<h5 class="text-muted">@Model.Course.Students student@(Model.Course.Students == 1 ? string.Empty : "s") enrolled in course</h5>
+
+@if (User.Identity.IsAuthenticated)
+{
+    if (Model.Course.StartDate >= DateTime.UtcNow.Date)
+    {
+        if (Model.IsUserEnrolledInCourse)
+        {
+            <form method="post" asp-controller="Courses"
+                  asp-action=@nameof(CoursesController.SignOutStudent)
+                  asp-route-id=@Model.Course.Id>
+                <input type="submit" class="btn btn-warning" value="Sign Out" />
+            </form>
+        }
+        else
+        {
+            <form method="post" asp-controller="Courses"
+                  asp-action=@nameof(CoursesController.SignUpStudent)
+                  asp-route-id=@Model.Course.Id>
+                <input type="submit" class="btn btn-primary" value="Sign Up" />
+            </form>
+        }
+    }
+    else
+    {
+        if (Model.Course.EndDate < DateTime.UtcNow)
+        {
+            <span>This course has already finished.</span>
+        }
+        else
+        {
+            <span>This course has already started.</span>
+        }
+    }
+}
+else
+{
+    <span>
+        To enroll in this course please
+        <a asp-controller="Account" asp-action=@nameof(AccountController.Login)
+           asp-route-returnUrl=@Context.Request.Path>login</a> into your account.
+    </span>
+}
+
+<br />
+<h4>@Model.Course.Description</h4>
