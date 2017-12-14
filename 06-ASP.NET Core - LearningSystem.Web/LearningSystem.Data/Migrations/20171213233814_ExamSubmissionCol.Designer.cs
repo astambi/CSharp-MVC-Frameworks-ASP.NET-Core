@@ -4,12 +4,14 @@ namespace LearningSystem.Data.Migrations
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Infrastructure;
     using Microsoft.EntityFrameworkCore.Metadata;
+    using Microsoft.EntityFrameworkCore.Migrations;
     using System;
 
     [DbContext(typeof(LearningSystemDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20171213233814_ExamSubmissionCol")]
+    partial class ExamSubmissionCol
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -70,6 +72,9 @@ namespace LearningSystem.Data.Migrations
                     b.Property<string>("StudentId");
 
                     b.Property<int>("CourseId");
+
+                    b.Property<byte[]>("ExamSubmission")
+                        .HasMaxLength(2097152);
 
                     b.Property<int?>("Grade");
 

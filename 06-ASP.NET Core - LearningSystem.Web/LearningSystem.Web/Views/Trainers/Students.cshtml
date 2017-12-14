@@ -14,6 +14,7 @@
             <th>Grade</th>
             @if (Model.Course.EndDate < DateTime.UtcNow)
             {
+                <th>Exam Submission</th>
                 <th></th>
             }
         </tr>
@@ -27,6 +28,11 @@
                 <td>@(student.Grade == null ? "No Grade" : student.Grade.ToString())</td>
                 @if (Model.Course.EndDate < DateTime.UtcNow)
                 {
+                    <td>
+                        <a asp-action="DownloadExam"
+                           asp-route-id=@Model.Course.Id
+                           asp-route-studentId=@student.Id>Download</a>
+                    </td>
                     <td>
                         <form method="post"
                               asp-action=@nameof(TrainersController.GradeStudent)

@@ -3,6 +3,7 @@
     using AutoMapper.QueryableExtensions;
     using Data;
     using Data.Models;
+    using Microsoft.AspNetCore.Http;
     using Microsoft.EntityFrameworkCore;
     using Models;
     using System;
@@ -110,5 +111,32 @@
                 IsStudentEnrolledInCourse = c.Students.Any(s => s.StudentId == studentId)
             })
             .FirstOrDefaultAsync();
+
+        public async Task<bool> SaveExamSubmission(int courseId, string studentId, byte[] examSubmission)
+        {
+            var course = await this.db.Courses.FindAsync(courseId);
+            if (course == null)
+            {
+                return false;
+            }
+
+            var student = await this.db.Users.FindAsync(studentId);
+            if (student == null)
+            {
+                return false;
+            }
+
+            var studentInCourse = await this.db
+                .FindAsync<StudentCourse>(studentId, courseId);
+            if (studentInCourse == null)
+            {
+                return false; 
+            }
+
+            studentInCourse.ExamSubmission = examSubmission;
+            await this.db.SaveChangesAsync();
+
+            return true;
+        }
     }
 }

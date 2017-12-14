@@ -10,5 +10,8 @@
 
         public const int UserNameMinLength = 2;
         public const int UserNameMaxLength = 100;
+
+        public const int MaxFileLength = 2 * 1024 * 1024;
+
     }
 }

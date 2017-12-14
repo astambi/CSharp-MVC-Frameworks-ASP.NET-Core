@@ -14,5 +14,9 @@
         Task<IEnumerable<StudentInCourseServiceModel>> StudentsInCourseAsync(int courseId);
 
         Task<bool> AddGradeAsync(int courseId, string studentId, Grade grade);
+
+        Task<byte[]> GetExamSubmission(int courseId, string studentId);
+
+        Task<StudentInCourseNamesServiceModel> StudentInCourseNamesAsync(int courseId, string studentId);
     }
 }
