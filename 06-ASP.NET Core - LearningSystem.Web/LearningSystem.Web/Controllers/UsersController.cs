@@ -34,6 +34,18 @@
             return this.View(profile);
         }
 
+        [Authorize]
+        public async Task<IActionResult> DownloadCertificate(int id)
+        {
+            var userId = this.userManager.GetUserId(this.User);
 
+            var certificateContents = await this.userService.GetPdfCertificate(id, userId);
+            if (certificateContents == null)
+            {
+                return BadRequest();
+            }
+
+            return File(certificateContents, "application/pdf", "Certificate.pdf");
+        }
     }
 }

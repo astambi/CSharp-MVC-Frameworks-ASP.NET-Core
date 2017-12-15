@@ -20,6 +20,7 @@
         <tr>
             <th>Course</th>
             <th>Grade</th>
+            <th>Certificate</th>
         </tr>
     </thead>
     <tbody>
@@ -32,6 +33,19 @@
                 </td>
                 <td class="text-center">
                     @(course.Grade == null ? "No grade" : course.Grade.Value.ToString())
+                </td>
+                <td>
+                    @if (course.Grade == Grade.A
+                         || course.Grade == Grade.B
+                         || course.Grade == Grade.C)
+                    {
+                        <a asp-action=@nameof(UsersController.DownloadCertificate)
+                           asp-route-id=@course.Id>Download</a>
+                    }
+                    else
+                    {
+                        @: No certificate
+                    }
                 </td>
             </tr>
         }

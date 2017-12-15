@@ -86,17 +86,16 @@
                 return BadRequest();
             }
 
-            var examContents = await this.trainerService.GetExamSubmission(id, studentId);
-            if (examContents == null)
+            var studentInCourseNames = await this.trainerService.StudentInCourseNamesAsync(id, studentId);
+            if (studentInCourseNames == null)
             {
                 return BadRequest();
             }
 
-            var studentInCourseNames = await this.trainerService.StudentInCourseNamesAsync(id, studentId);
-
-            if (studentInCourseNames == null)
+            var examContents = await this.trainerService.GetExamSubmission(id, studentId);
+            if (examContents == null)
             {
-                return BadRequest();
+                return BadRequest("No exam submitted.");
             }
 
             return File(examContents, "application/zip", $"{studentInCourseNames.CourseName}-{studentInCourseNames.UserName}-{DateTime.UtcNow.ToString("yyyy-MM-dd")}.zip");

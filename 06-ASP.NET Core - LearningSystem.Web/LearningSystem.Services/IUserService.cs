@@ -9,5 +9,7 @@
         Task<UserProfileServiceModel> ProfileAsync(string username);
 
         Task<IEnumerable<UserListingServiceModel>> FindAsync(string searchText);
+
+        Task<byte[]> GetPdfCertificate(int courseId, string studentId);
     }
 }
