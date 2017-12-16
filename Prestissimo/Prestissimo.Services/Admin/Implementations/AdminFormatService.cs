@@ -4,7 +4,6 @@
     using Data;
     using Data.Models;
     using Microsoft.EntityFrameworkCore;
-    using Services.Admin.Models;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -18,16 +17,16 @@
             this.db = db;
         }
 
-        public async Task<IEnumerable<AdminFormatListingServiceModel>> AllAsync()
+        public async Task<IEnumerable<TModel>> AllAsync<TModel>()
             => await this.db
                 .Formats
                 .OrderBy(f => f.Name)
-                .ProjectTo<AdminFormatListingServiceModel>()
+                .ProjectTo<TModel>()
                 .ToListAsync();
 
         public async Task<bool> CreateAsync(string name, string description)
         {
-            if (await this.Exists(name))
+            if (await this.ExistsAsync(name))
             {
                 return false;
             }
@@ -38,27 +37,28 @@
                 Description = description
             };
 
-            await this.db.Formats.AddAsync(format);
+            this.db.Formats.Add(format);
             await this.db.SaveChangesAsync();
 
             return true;
         }
 
-        public async Task<bool> Exists(int id)
+        public async Task<bool> ExistsAsync(int id)
             => await this.db.Formats.AnyAsync(f => f.Id == id);
 
-        public async Task<bool> Exists(string name)
+        public async Task<bool> ExistsAsync(string name)
             => await this.db.Formats.AnyAsync(f => f.Name.ToLower() == name.ToLower());
-
-        public async Task<Format> GetByIdAsync(int id)
-            => await this.db
-                .Formats
-                .Where(f => f.Id == id)
-                .FirstOrDefaultAsync();
+                
+        public async Task<TModel> GetByIdAsync<TModel>(int id)
+           => await this.db
+               .Formats
+               .Where(f => f.Id == id)
+               .ProjectTo<TModel>()
+               .FirstOrDefaultAsync();
 
         public async Task RemoveAsync(int id)
         {
-            var format = await this.GetByIdAsync(id);
+            var format = this.db.Formats.Find(id);
             if (format == null)
             {
                 return;
@@ -70,14 +70,14 @@
 
         public async Task<bool> UpdateAsync(int id, string name, string description)
         {
-            var format = await this.GetByIdAsync(id);
+            var format = this.db.Formats.Find(id);
             if (format == null)
             {
                 return false;
             }
 
             if (format.Name.ToLower() != name.ToLower()
-                && await this.Exists(name))
+                && await this.ExistsAsync(name))
             {
                 return false;
             }

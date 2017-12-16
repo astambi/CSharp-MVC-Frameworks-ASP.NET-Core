@@ -1,4 +1,4 @@
-﻿namespace Prestissimo.Services.Admin.Models
+﻿namespace Prestissimo.Services.Admin.Models.Labels
 {
     using Common.Mapping;
     using Data.Models;

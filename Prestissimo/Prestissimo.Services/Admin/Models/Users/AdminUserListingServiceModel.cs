@@ -1,4 +1,4 @@
-﻿namespace Prestissimo.Services.Admin.Models
+﻿namespace Prestissimo.Services.Admin.Models.Users
 {
     using Common.Mapping;
     using Data.Models;

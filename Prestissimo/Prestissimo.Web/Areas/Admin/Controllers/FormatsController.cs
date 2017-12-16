@@ -3,21 +3,23 @@
     using Admin.Models.Formats;
     using Microsoft.AspNetCore.Mvc;
     using Services.Admin;
+    using Services.Admin.Models.Formats;
     using System.Threading.Tasks;
     using Web.Infrastructure.Extensions;
 
     public class FormatsController : BaseAdminController
     {
-        private readonly IAdminFormatService adminFormatService;
+        private readonly IAdminFormatService formatService;
 
-        public FormatsController(IAdminFormatService adminFormatService)
+        public FormatsController(IAdminFormatService formatService)
         {
-            this.adminFormatService = adminFormatService;
+            this.formatService = formatService;
         }
 
         public async Task<IActionResult> Index()
         {
-            var formatsData = await this.adminFormatService.AllAsync();
+            var formatsData = await this.formatService
+                .AllAsync<AdminFormatListingServiceModel>();
 
             return this.View(formatsData);
         }
@@ -32,7 +34,7 @@
                 return this.View(model);
             }
 
-            var success = await this.adminFormatService.CreateAsync(
+            var success = await this.formatService.CreateAsync(
                 model.Name,
                 model.Description);
 
@@ -54,7 +56,9 @@
 
         public async Task<IActionResult> Edit(int id)
         {
-            var formatData = await this.adminFormatService.GetByIdAsync(id);
+            var formatData = await this.formatService
+                .GetByIdAsync<AdminFormatDetailsToModifyServiceModel>(id);
+
             if (formatData == null)
             {
                 this.TempData.AddErrorMessage(WebAdminConstants.FormatNotFoundMsg);
@@ -71,8 +75,8 @@
         [HttpPost]
         public async Task<IActionResult> Edit(int id, FormatFormModel model)
         {
-            var formatData = await this.adminFormatService.GetByIdAsync(id);
-            if (formatData == null)
+            var formatExists = await this.formatService.ExistsAsync(id);
+            if (!formatExists)
             {
                 this.TempData.AddErrorMessage(WebAdminConstants.FormatNotFoundMsg);
                 return RedirectToAction(nameof(Index));
@@ -83,7 +87,7 @@
                 return this.View(model);
             }
 
-            var success = await this.adminFormatService.UpdateAsync(
+            var success = await this.formatService.UpdateAsync(
                 id,
                 model.Name,
                 model.Description);
@@ -106,23 +110,23 @@
 
         public async Task<IActionResult> Delete(int id)
         {
-            var formatData = await this.adminFormatService.GetByIdAsync(id);
+            var formatData = await this.formatService
+                .GetByIdAsync<AdminFormatBasicServiceModel>(id);
+
             if (formatData == null)
             {
                 this.TempData.AddErrorMessage(WebAdminConstants.FormatNotFoundMsg);
                 return RedirectToAction(nameof(Index));
             }
 
-            return this.View(new FormatDeleteModel
-            {
-                Id = id,
-                Name = formatData.Name
-            });
+            return this.View(formatData);
         }
 
         public async Task<IActionResult> ConfirmDelete(int id)
         {
-            var formatData = await this.adminFormatService.GetByIdAsync(id);
+            var formatData = await this.formatService
+                .GetByIdAsync<AdminFormatBasicServiceModel>(id);
+
             if (formatData == null)
             {
                 this.TempData.AddErrorMessage(WebAdminConstants.FormatNotFoundMsg);
@@ -133,7 +137,7 @@
                 WebAdminConstants.FormatDeletedMsg,
                 formatData.Name.ToStrongHtml()));
 
-            await this.adminFormatService.RemoveAsync(id);
+            await this.formatService.RemoveAsync(id);
 
             return this.RedirectToAction(nameof(Index));
         }

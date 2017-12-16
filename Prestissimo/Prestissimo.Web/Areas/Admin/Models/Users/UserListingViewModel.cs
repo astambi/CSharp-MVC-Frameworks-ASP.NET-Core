@@ -1,7 +1,7 @@
 ﻿namespace Prestissimo.Web.Areas.Admin.Models.Users
 {
     using Microsoft.AspNetCore.Mvc.Rendering;
-    using Services.Admin.Models;
+    using Services.Admin.Models.Users;
     using System.Collections.Generic;
 
     public class UserListingViewModel

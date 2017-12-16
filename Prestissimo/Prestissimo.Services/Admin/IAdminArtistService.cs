@@ -1,19 +1,18 @@
 ﻿namespace Prestissimo.Services.Admin
 {
     using Data.Models;
-    using Services.Admin.Models;
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
     public interface IAdminArtistService
     {
-        Task<IEnumerable<AdminArtistListingServiceModel>> AllAsync();
+        Task<IEnumerable<TModel>> AllAsync<TModel>();
 
         Task CreateAsync(string name, string description, ArtistType artistType);
 
-        Task<bool> Exists(int id);
+        Task<bool> ExistsAsync(int id);
 
-        Task<Artist> GetByIdAsync(int id);
+        Task<TModel> GetByIdAsync<TModel>(int id);
 
         Task RemoveAsync(int id);
 

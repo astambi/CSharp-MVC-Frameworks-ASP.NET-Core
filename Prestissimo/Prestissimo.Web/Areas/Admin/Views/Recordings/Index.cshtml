@@ -1,0 +1,41 @@
+﻿@model IEnumerable<AdminRecordingListingServiceModel>
+
+@{
+    ViewData["Title"] = "Recordings Administration";
+}
+
+<h2>
+    @ViewData["Title"]
+    <a asp-action=@nameof(RecordingsController.Create) class="btn btn-primary pull-right">Add Recording</a>
+</h2>
+
+<table class="table table-hover table-bordered table-striped table-responsive">
+    <thead>
+        <tr>
+            <th>Release Date</th>
+            <th>Title</th>
+            <th>Label</th>
+            <th>Administration</th>
+            <th>Add Artist</th>
+            <th>Add Format</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var recording in Model)
+        {
+            <tr>
+                <td>@recording.ReleaseDate.ToDate()</td>
+                <td>@recording.Title</td>
+                <td>@recording.LabelName</td>
+                <td>
+                    <a asp-action=@nameof(RecordingsController.Edit) asp-route-id=@recording.Id
+                       class="btn btn-warning">Edit</a>
+                    <a asp-action=@nameof(RecordingsController.Delete) asp-route-id=@recording.Id
+                       class="btn btn-danger">Delete</a>
+                </td>
+                <td>TODO</td>
+                <td>TODO</td>
+            </tr>
+        }
+    </tbody>
+</table>

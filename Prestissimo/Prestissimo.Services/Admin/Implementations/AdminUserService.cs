@@ -1,9 +1,9 @@
 ﻿namespace Prestissimo.Services.Admin.Implementations
 {
+    using Admin.Models.Users;
     using AutoMapper.QueryableExtensions;
     using Data;
     using Microsoft.EntityFrameworkCore;
-    using Models;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;

@@ -3,21 +3,23 @@
     using Admin.Models.Artists;
     using Microsoft.AspNetCore.Mvc;
     using Services.Admin;
+    using Services.Admin.Models.Artists;
     using System.Threading.Tasks;
     using Web.Infrastructure.Extensions;
 
     public class ArtistsController : BaseAdminController
     {
-        private readonly IAdminArtistService adminArtistService;
+        private readonly IAdminArtistService artistService;
 
-        public ArtistsController(IAdminArtistService adminArtistService)
+        public ArtistsController(IAdminArtistService artistService)
         {
-            this.adminArtistService = adminArtistService;
+            this.artistService = artistService;
         }
 
         public async Task<IActionResult> Index()
         {
-            var artistsData = await this.adminArtistService.AllAsync();
+            var artistsData = await this.artistService
+                .AllAsync<AdminArtistListingServiceModel>();
 
             return this.View(artistsData);
         }
@@ -32,7 +34,7 @@
                 return this.View(model);
             }
 
-            await this.adminArtistService.CreateAsync(
+            await this.artistService.CreateAsync(
                 model.Name,
                 model.Description,
                 model.ArtistType);
@@ -47,7 +49,9 @@
 
         public async Task<IActionResult> Edit(int id)
         {
-            var artistData = await this.adminArtistService.GetByIdAsync(id);
+            var artistData = await this.artistService
+                .GetByIdAsync<AdminArtistDetailsToModifyServiceModel>(id);
+
             if (artistData == null)
             {
                 this.TempData.AddErrorMessage(WebAdminConstants.ArtistNotFoundMsg);
@@ -65,8 +69,8 @@
         [HttpPost]
         public async Task<IActionResult> Edit(int id, ArtistFormModel model)
         {
-            var artistData = await this.adminArtistService.GetByIdAsync(id);
-            if (artistData == null)
+            var artistExists = await this.artistService.ExistsAsync(id);
+            if (!artistExists)
             {
                 this.TempData.AddErrorMessage(WebAdminConstants.ArtistNotFoundMsg);
                 return RedirectToAction(nameof(Index));
@@ -77,7 +81,7 @@
                 return this.View(model);
             }
 
-            await this.adminArtistService.UpdateAsync(
+            await this.artistService.UpdateAsync(
                 id,
                 model.Name,
                 model.Description,
@@ -93,24 +97,23 @@
 
         public async Task<IActionResult> Delete(int id)
         {
-            var artistData = await this.adminArtistService.GetByIdAsync(id);
+            var artistData = await this.artistService
+                .GetByIdAsync<AdminArtistBasicServiceModel>(id);
+
             if (artistData == null)
             {
                 this.TempData.AddErrorMessage(WebAdminConstants.ArtistNotFoundMsg);
                 return RedirectToAction(nameof(Index));
             }
 
-            return this.View(new ArtistDeleteModel
-            {
-                Id = id,
-                Name = artistData.Name,
-                ArtistType = artistData.ArtistType
-            });
+            return this.View(artistData);
         }
 
         public async Task<IActionResult> ConfirmDelete(int id)
         {
-            var artistData = await this.adminArtistService.GetByIdAsync(id);
+            var artistData = await this.artistService
+                .GetByIdAsync<AdminArtistBasicServiceModel>(id);
+
             if (artistData == null)
             {
                 this.TempData.AddErrorMessage(WebAdminConstants.ArtistNotFoundMsg);
@@ -120,9 +123,9 @@
             this.TempData.AddSuccessMessage(string.Format(
                 WebAdminConstants.ArtistDeletedMsg,
                 artistData.Name.ToStrongHtml(),
-                artistData.ArtistType.ToString().ToStrongHtml()));
+                artistData.ArtistCategory.ToStrongHtml()));
 
-            await this.adminArtistService.RemoveAsync(id);
+            await this.artistService.RemoveAsync(id);
 
             return this.RedirectToAction(nameof(Index));
         }

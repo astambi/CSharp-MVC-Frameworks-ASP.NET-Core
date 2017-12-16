@@ -1,4 +1,4 @@
-﻿@model ArtistDeleteModel
+﻿@model AdminArtistBasicServiceModel
 
 @{
     ViewData["Title"] = "Delete Artist";
@@ -8,7 +8,7 @@
 
 <h2>
     Are you sure you want to delete
-    <span class="text-danger"> @Model.ArtistType.ToString() @Model.Name</span>?
+    <span class="text-danger"> @Model.ArtistCategory @Model.Name</span>?
 </h2>
 
 <div class="btn-group">

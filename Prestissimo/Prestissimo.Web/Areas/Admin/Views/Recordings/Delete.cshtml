@@ -1,14 +1,14 @@
-﻿@model AdminLabelBasicServiceModel
+﻿@model AdminRecordingListingServiceModel
 
 @{
-    ViewData["Title"] = "Delete Label";
+    ViewData["Title"] = "Delete Recording";
 }
 
 <h2>@ViewData["Title"]</h2>
 
 <h2>
     Are you sure you want to delete
-    <span class="text-danger">Label @Model.Name</span>?
+    <span class="text-danger">@Model.Title (released by @Model.LabelName on @(Model.ReleaseDate.ToDate()))</span>?
 </h2>
 
 <div class="btn-group">

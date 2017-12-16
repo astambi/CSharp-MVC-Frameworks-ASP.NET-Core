@@ -6,7 +6,7 @@
 
 <h2>
     @ViewData["Title"]
-    <a asp-action=@nameof(ArtistsController.Create) class="btn btn-primary btn-lg">Add Artist</a>
+    <a asp-action=@nameof(ArtistsController.Create) class="btn btn-primary pull-right">Add Artist</a>
 </h2>
 
 <table class="table table-hover table-bordered table-striped table-responsive">
@@ -22,7 +22,7 @@
         @foreach (var artist in Model)
         {
             <tr>
-                <td>@artist.ArtistType</td>
+                <td>@artist.ArtistCategory</td>
                 <td>@artist.Name</td>
                 <td>@artist.Description</td>
                 <td>

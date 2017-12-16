@@ -21,6 +21,12 @@
         public const string LabelNotFoundMsg = "Label not found.";
         public const string LabelUpdatedMsg = "Label {0} was successfully updated.";
 
+        public const string RecordingCreatedMsg = "Recording {0} was successfully created.";
+        public const string RecordingDeletedMsg = "Recording {0} was successfully deleted.";
+        public const string RecordingInvalidDataMsg = "Invalid recording data.";
+        public const string RecordingNotFoundMsg = "Recording not found.";
+        public const string RecordingUpdatedMsg = "Recording {0} was successfully updated.";
+
         public const string UserAddedToRoleMsg = "User {0} ({1}) was added to role {2}.";
         public const string UserIvalidIdentityDetailsMsg = "Invalid identity details.";
         public const string UserRemovedFromRoleMsg = "User {0} ({1}) was removed from role {2}.";

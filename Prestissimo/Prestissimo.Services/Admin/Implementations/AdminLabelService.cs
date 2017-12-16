@@ -1,6 +1,5 @@
 ﻿namespace Prestissimo.Services.Admin.Implementations
 {
-    using Admin.Models;
     using AutoMapper.QueryableExtensions;
     using Data;
     using Data.Models;
@@ -18,11 +17,11 @@
             this.db = db;
         }
 
-        public async Task<IEnumerable<AdminLabelListingServiceModel>> AllAsync()
+        public async Task<IEnumerable<TModel>> AllAsync<TModel>()
             => await this.db
                 .Labels
                 .OrderBy(l => l.Name)
-                .ProjectTo<AdminLabelListingServiceModel>()
+                .ProjectTo<TModel>()
                 .ToListAsync();
 
         public async Task CreateAsync(string name, string description)
@@ -37,18 +36,19 @@
             await this.db.SaveChangesAsync();
         }
 
-        public async Task<bool> Exists(int id)
+        public async Task<bool> ExistsAsync(int id)
             => await this.db.Labels.AnyAsync(l => l.Id == id);
 
-        public async Task<Label> GetByIdAsync(int id)
+        public async Task<TModel> GetByIdAsync<TModel>(int id)
              => await this.db
                 .Labels
                 .Where(l => l.Id == id)
+                .ProjectTo<TModel>()
                 .FirstOrDefaultAsync();
 
         public async Task RemoveAsync(int id)
         {
-            var label = await this.GetByIdAsync(id);
+            var label = this.db.Labels.Find(id);
             if (label == null)
             {
                 return;
@@ -60,7 +60,7 @@
 
         public async Task UpdateAsync(int id, string name, string description)
         {
-            var label = await this.GetByIdAsync(id);
+            var label = this.db.Labels.Find(id);
             if (label == null)
             {
                 return;

@@ -3,21 +3,23 @@
     using Admin.Models.Labels;
     using Microsoft.AspNetCore.Mvc;
     using Services.Admin;
+    using Services.Admin.Models.Labels;
     using System.Threading.Tasks;
     using Web.Infrastructure.Extensions;
 
     public class LabelsController : BaseAdminController
     {
-        private readonly IAdminLabelService adminLabelService;
+        private readonly IAdminLabelService labelService;
 
-        public LabelsController(IAdminLabelService adminLabelService)
+        public LabelsController(IAdminLabelService labelService)
         {
-            this.adminLabelService = adminLabelService;
+            this.labelService = labelService;
         }
 
         public async Task<IActionResult> Index()
         {
-            var labelData = await this.adminLabelService.AllAsync();
+            var labelData = await this.labelService
+                .AllAsync<AdminLabelListingServiceModel>();
 
             return this.View(labelData);
         }
@@ -32,7 +34,7 @@
                 return this.View(model);
             }
 
-            await this.adminLabelService.CreateAsync(
+            await this.labelService.CreateAsync(
                 model.Name,
                 model.Description);
 
@@ -45,7 +47,9 @@
 
         public async Task<IActionResult> Edit(int id)
         {
-            var labelData = await this.adminLabelService.GetByIdAsync(id);
+            var labelData = await this.labelService
+                .GetByIdAsync<AdminLabelDetailsToModifyServiceModel>(id);
+
             if (labelData == null)
             {
                 this.TempData.AddErrorMessage(WebAdminConstants.LabelNotFoundMsg);
@@ -62,8 +66,8 @@
         [HttpPost]
         public async Task<IActionResult> Edit(int id, LabelFormModel model)
         {
-            var labelData = await this.adminLabelService.GetByIdAsync(id);
-            if (labelData == null)
+            var labelExists = await this.labelService.ExistsAsync(id);
+            if (!labelExists)
             {
                 this.TempData.AddErrorMessage(WebAdminConstants.LabelNotFoundMsg);
                 return RedirectToAction(nameof(Index));
@@ -74,7 +78,7 @@
                 return this.View(model);
             }
 
-            await this.adminLabelService.UpdateAsync(
+            await this.labelService.UpdateAsync(
                 id,
                 model.Name,
                 model.Description);
@@ -88,23 +92,23 @@
 
         public async Task<IActionResult> Delete(int id)
         {
-            var labelData = await this.adminLabelService.GetByIdAsync(id);
+            var labelData = await this.labelService
+                .GetByIdAsync<AdminLabelBasicServiceModel>(id);
+
             if (labelData == null)
             {
                 this.TempData.AddErrorMessage(WebAdminConstants.LabelNotFoundMsg);
                 return RedirectToAction(nameof(Index));
             }
 
-            return this.View(new LabelDeleteModel
-            {
-                Id = id,
-                Name = labelData.Name
-            });
+            return this.View(labelData);
         }
 
         public async Task<IActionResult> ConfirmDelete(int id)
         {
-            var labelData = await this.adminLabelService.GetByIdAsync(id);
+            var labelData = await this.labelService
+                .GetByIdAsync<AdminLabelBasicServiceModel>(id);
+
             if (labelData == null)
             {
                 this.TempData.AddErrorMessage(WebAdminConstants.ArtistNotFoundMsg);
@@ -115,7 +119,7 @@
                 WebAdminConstants.LabelDeletedMsg,
                 labelData.Name.ToStrongHtml()));
 
-            await this.adminLabelService.RemoveAsync(id);
+            await this.labelService.RemoveAsync(id);
 
             return this.RedirectToAction(nameof(Index));
         }

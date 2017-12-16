@@ -4,7 +4,6 @@
     using Data;
     using Data.Models;
     using Microsoft.EntityFrameworkCore;
-    using Services.Admin.Models;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -18,15 +17,16 @@
             this.db = db;
         }
 
-        public async Task<IEnumerable<AdminArtistListingServiceModel>> AllAsync()
+        public async Task<IEnumerable<TModel>> AllAsync<TModel>()
             => await this.db
                 .Artists
                 .OrderBy(a => a.ArtistType)
                 .ThenBy(a => a.Name)
-                .ProjectTo<AdminArtistListingServiceModel>()
+                .ProjectTo<TModel>()
                 .ToListAsync();
 
-        public async Task CreateAsync(string name, string description, ArtistType artistType)
+        public async Task CreateAsync(
+            string name, string description, ArtistType artistType)
         {
             var artist = new Artist
             {
@@ -39,18 +39,19 @@
             await this.db.SaveChangesAsync();
         }
 
-        public async Task<bool> Exists(int id)
+        public async Task<bool> ExistsAsync(int id)
             => await this.db.Artists.AnyAsync(a => a.Id == id);
 
-        public async Task<Artist> GetByIdAsync(int id)
+        public async Task<TModel> GetByIdAsync<TModel>(int id)
             => await this.db
                 .Artists
                 .Where(a => a.Id == id)
+                .ProjectTo<TModel>()
                 .FirstOrDefaultAsync();
 
         public async Task RemoveAsync(int id)
         {
-            var artist = await this.GetByIdAsync(id);
+            var artist = this.db.Artists.Find(id);
             if (artist == null)
             {
                 return;
@@ -62,7 +63,7 @@
 
         public async Task UpdateAsync(int id, string name, string description, ArtistType artistType)
         {
-            var artist = await this.GetByIdAsync(id);
+            var artist = this.db.Artists.Find(id);
             if (artist == null)
             {
                 return;
