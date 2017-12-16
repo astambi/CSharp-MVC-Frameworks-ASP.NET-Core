@@ -27,10 +27,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Areas\Admin\Models\Formats\" />
-    <Folder Include="Areas\Admin\Models\Labels\" />
-    <Folder Include="Areas\Admin\Views\Formats\" />
-    <Folder Include="Areas\Admin\Views\Labels\" />
     <Folder Include="Areas\Admin\Views\Users\" />
     <Folder Include="Areas\Blog\Models\" />
     <Folder Include="Areas\Blog\Views\" />

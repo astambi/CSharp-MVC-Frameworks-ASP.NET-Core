@@ -29,7 +29,7 @@
         {
             if (!this.ModelState.IsValid)
             {
-                return BadRequest(WebAdminConstants.ArtistInvalidDataMsg);
+                return this.View(model);
             }
 
             await this.adminArtistService.CreateAsync(
@@ -39,8 +39,8 @@
 
             this.TempData.AddSuccessMessage(string.Format(
                 WebAdminConstants.ArtistCreatedMsg,
-                model.Name,
-                model.ArtistType.ToString()));
+                model.Name.ToStrongHtml(),
+                model.ArtistType.ToString().ToStrongHtml()));
 
             return this.RedirectToAction(nameof(Index));
         }
@@ -65,6 +65,13 @@
         [HttpPost]
         public async Task<IActionResult> Edit(int id, ArtistFormModel model)
         {
+            var artistData = await this.adminArtistService.GetByIdAsync(id);
+            if (artistData == null)
+            {
+                this.TempData.AddErrorMessage(WebAdminConstants.ArtistNotFoundMsg);
+                return RedirectToAction(nameof(Index));
+            }
+
             if (!this.ModelState.IsValid)
             {
                 return this.View(model);
@@ -78,8 +85,8 @@
 
             this.TempData.AddSuccessMessage(string.Format(
                 WebAdminConstants.ArtistUpdatedMsg,
-                model.Name,
-                model.ArtistType.ToString()));
+                model.Name.ToStrongHtml(),
+                model.ArtistType.ToString().ToStrongHtml()));
 
             return this.RedirectToAction(nameof(Index));
         }
@@ -112,8 +119,8 @@
 
             this.TempData.AddSuccessMessage(string.Format(
                 WebAdminConstants.ArtistDeletedMsg,
-                artistData.Name,
-                artistData.ArtistType.ToString()));
+                artistData.Name.ToStrongHtml(),
+                artistData.ArtistType.ToString().ToStrongHtml()));
 
             await this.adminArtistService.RemoveAsync(id);
 

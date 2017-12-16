@@ -1,12 +1,10 @@
-﻿namespace Prestissimo.Data.Models
+﻿namespace Prestissimo.Web.Areas.Admin.Models.Formats
 {
-    using System.Collections.Generic;
+    using Data;
     using System.ComponentModel.DataAnnotations;
 
-    public class Format
+    public class FormatFormModel
     {
-        public int Id { get; set; }
-
         [Required]
         [MaxLength(DataConstants.FormatNameMaxLength)]
         public string Name { get; set; }
@@ -14,7 +12,5 @@
         [Required]
         [MaxLength(DataConstants.FormatDescriptionMaxLength)]
         public string Description { get; set; }
-
-        public ICollection<RecordingFormat> Recordings { get; set; } = new List<RecordingFormat>();
     }
 }

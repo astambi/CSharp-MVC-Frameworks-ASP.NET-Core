@@ -9,6 +9,9 @@
         public const int ArtistNameMaxLength = 100;
         public const int ArtistDescriptionMaxLength = 1000;
 
+        public const int FormatNameMaxLength = 50;
+        public const int FormatDescriptionMaxLength = 1000;
+
         public const int LabelNameMaxLength = 100;
         public const int LabelDescriptionMaxLength = 1000;
 

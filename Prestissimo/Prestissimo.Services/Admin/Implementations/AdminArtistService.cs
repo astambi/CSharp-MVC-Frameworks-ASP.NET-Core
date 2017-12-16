@@ -19,17 +19,14 @@
         }
 
         public async Task<IEnumerable<AdminArtistListingServiceModel>> AllAsync()
-        {
-            return await this.db
+            => await this.db
                 .Artists
                 .OrderBy(a => a.ArtistType)
                 .ThenBy(a => a.Name)
                 .ProjectTo<AdminArtistListingServiceModel>()
                 .ToListAsync();
-        }
 
-        public async Task CreateAsync(
-            string name, string description, ArtistType artistType)
+        public async Task CreateAsync(string name, string description, ArtistType artistType)
         {
             var artist = new Artist
             {
@@ -47,9 +44,9 @@
 
         public async Task<Artist> GetByIdAsync(int id)
             => await this.db
-            .Artists
-            .Where(a => a.Id == id)
-            .FirstOrDefaultAsync();
+                .Artists
+                .Where(a => a.Id == id)
+                .FirstOrDefaultAsync();
 
         public async Task RemoveAsync(int id)
         {
@@ -63,9 +60,7 @@
             await this.db.SaveChangesAsync();
         }
 
-        public async Task UpdateAsync(
-            int id,
-            string name, string description, ArtistType artistType)
+        public async Task UpdateAsync(int id, string name, string description, ArtistType artistType)
         {
             var artist = await this.GetByIdAsync(id);
             if (artist == null)

@@ -4,7 +4,10 @@
     ViewData["Title"] = "Artists Administration";
 }
 
-<h2>@ViewData["Title"]</h2>
+<h2>
+    @ViewData["Title"]
+    <a asp-action=@nameof(ArtistsController.Create) class="btn btn-primary btn-lg">Add Artist</a>
+</h2>
 
 <table class="table table-hover table-bordered table-striped table-responsive">
     <thead>

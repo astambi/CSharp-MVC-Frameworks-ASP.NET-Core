@@ -34,41 +34,14 @@
                     {
                         <li class="dropdown">
                             <a class="dropdown-toggle" data-toggle="dropdown">
-                                Users
+                                Administration
                                 <span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a asp-area="Admin" asp-controller="Users" asp-action="Index">Users Roles</a></li>
-                            </ul>
-                        </li>
-                        <li class="dropdown">
-                            <a class="dropdown-toggle" data-toggle="dropdown">
-                                Labels
-                                <span class="caret"></span>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a asp-area="Admin" asp-controller="Labels" asp-action="Index">All</a></li>
-                                <li><a asp-area="Admin" asp-controller="Labels" asp-action="Create">Add</a></li>
-                            </ul>
-                        </li>
-                        <li class="dropdown">
-                            <a class="dropdown-toggle" data-toggle="dropdown">
-                                Artists
-                                <span class="caret"></span>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a asp-area="Admin" asp-controller="Artists" asp-action="Index">All</a></li>
-                                <li><a asp-area="Admin" asp-controller="Artists" asp-action="Create">Add</a></li>
-                            </ul>
-                        </li>
-                        <li class="dropdown">
-                            <a class="dropdown-toggle" data-toggle="dropdown">
-                                Formats
-                                <span class="caret"></span>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a asp-area="Admin" asp-controller="Formats" asp-action="Index">All</a></li>
-                                <li><a asp-area="Admin" asp-controller="Formats" asp-action="Create">Add</a></li>
+                                <li><a asp-area="Admin" asp-controller="Users" asp-action="Index">Users</a></li>
+                                <li><a asp-area="Admin" asp-controller="Artists" asp-action="Index">Artists</a></li>
+                                <li><a asp-area="Admin" asp-controller="Labels" asp-action="Index">Labels</a></li>
+                                <li><a asp-area="Admin" asp-controller="Formats" asp-action="Index">Formats</a></li>
                             </ul>
                         </li>
                     }
@@ -90,17 +63,16 @@
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
-                @TempData[WebConstants.TempDataSuccessMessageKey]
+                @Html.Raw(TempData[WebConstants.TempDataSuccessMessageKey])
             </div>
         }
-
         @if (TempData.ContainsKey(WebConstants.TempDataErrorMessageKey))
         {
             <div class="alert alert-danger alert-dismissible" role="alert">
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
-                @TempData[WebConstants.TempDataErrorMessageKey]
+                @Html.Raw(TempData[WebConstants.TempDataErrorMessageKey])
             </div>
         }
 

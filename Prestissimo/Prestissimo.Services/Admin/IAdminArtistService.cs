@@ -15,8 +15,8 @@
 
         Task<Artist> GetByIdAsync(int id);
 
-        Task UpdateAsync(int id, string name, string description, ArtistType artistType);
-
         Task RemoveAsync(int id);
+
+        Task UpdateAsync(int id, string name, string description, ArtistType artistType);
     }
 }

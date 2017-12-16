@@ -19,10 +19,10 @@
 
         public async Task<IEnumerable<AdminUserListingServiceModel>> AllAsync()
             => await this.db
-            .Users
-            .OrderBy(u => u.Name)
-            .ThenBy(u => u.UserName)
-            .ProjectTo<AdminUserListingServiceModel>()
-            .ToListAsync();
+                .Users
+                .OrderBy(u => u.Name)
+                .ThenBy(u => u.UserName)
+                .ProjectTo<AdminUserListingServiceModel>()
+                .ToListAsync();
     }
 }

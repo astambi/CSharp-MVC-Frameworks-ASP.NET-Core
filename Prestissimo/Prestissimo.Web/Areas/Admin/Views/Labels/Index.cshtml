@@ -1,0 +1,35 @@
+﻿@model IEnumerable<AdminLabelListingServiceModel>
+
+@{
+    ViewData["Title"] = "Labels Administration";
+}
+
+<h2>
+    @ViewData["Title"]
+    <a asp-action=@nameof(LabelsController.Create) class="btn btn-primary btn-lg">Add Label</a>
+</h2>
+
+<table class="table table-hover table-bordered table-striped table-responsive">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Administration</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var artist in Model)
+        {
+            <tr>
+                <td>@artist.Name</td>
+                <td>@artist.Description</td>
+                <td>
+                    <a asp-action=@nameof(LabelsController.Edit) asp-route-id=@artist.Id
+                       class="btn btn-warning">Edit</a>
+                    <a asp-action=@nameof(LabelsController.Delete) asp-route-id=@artist.Id
+                       class="btn btn-danger">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
