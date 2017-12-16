@@ -1,0 +1,34 @@
+﻿@model IEnumerable<AdminArtistListingServiceModel>
+
+@{
+    ViewData["Title"] = "Artists Administration";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<table class="table table-hover table-bordered table-striped table-responsive">
+    <thead>
+        <tr>
+            <th>Category</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Administration</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var artist in Model)
+        {
+            <tr>
+                <td>@artist.ArtistType</td>
+                <td>@artist.Name</td>
+                <td>@artist.Description</td>
+                <td>
+                    <a asp-action=@nameof(ArtistsController.Edit) asp-route-id=@artist.Id
+                       class="btn btn-block btn-warning">Edit</a>
+                    <a asp-action=@nameof(ArtistsController.Delete) asp-route-id=@artist.Id
+                       class="btn btn-block btn-danger">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

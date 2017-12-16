@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Models\" />
+    <Folder Include="Implementations\" />
+    <Folder Include="Blog\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Prestissimo.Common\Prestissimo.Common.csproj" />
+    <ProjectReference Include="..\Prestissimo.Data\Prestissimo.Data.csproj" />
+  </ItemGroup>
+
+</Project>
