@@ -1,0 +1,65 @@
+﻿@model RecordingArtistsListingModel
+
+@{
+    ViewData["Title"] = "Contributing Artists";
+
+    var orderedArtists = Model.Recording
+        .ContibutingArtists
+        .OrderBy(a => a.ArtistCategory)
+        .ThenBy(a => a.Name);
+}
+
+<h2>@Model.Recording.Title (@Model.Recording.LabelName, @Model.Recording.ReleaseDate.ToDate())</h2>
+<h3>
+    @ViewData["Title"]
+    <a asp-action=@nameof(RecordingsController.Formats) asp-route-id=@Model.Recording.Id
+       class="btn btn-primary pull-right">Review Available Formats</a>
+</h3>
+
+@if (Model.Recording.ContibutingArtists.Any())
+{
+    <table class="table table-hover table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Artist Category</th>
+                <th>Artist</th>
+                <th>Administration</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var artist in orderedArtists)
+            {
+                <tr>
+                    <td>@artist.ArtistCategory</td>
+                    <td>@artist.Name</td>
+                    <td>
+                        <form method="post"
+                              asp-action=@nameof(RecordingsController.RemoveArtistFromRecording)
+                              asp-route-id=@Model.Recording.Id asp-route-artistId=@artist.Id>
+                            <input type="submit" class="btn btn-danger" value="Remove Artist" />
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    @: No artists contributing to this recording.
+}
+
+<h3>Add more artists to this recording</h3>
+<div>
+    <div class="row">
+        <form method="post" asp-action=@nameof(RecordingsController.AddArtistToRecording)>
+            <input hidden name="RecordingId" asp-for=@Model.Recording.Id />
+            <div class="col-md-4 ">
+                <select name="ArtistId" asp-items=Model.Artists class="form-control"></select>
+            </div>
+            <div class="col-md-4 ">
+                <input type="submit" class="btn btn-primary " value="Add Artist" />
+            </div>
+        </form>
+    </div>
+</div>

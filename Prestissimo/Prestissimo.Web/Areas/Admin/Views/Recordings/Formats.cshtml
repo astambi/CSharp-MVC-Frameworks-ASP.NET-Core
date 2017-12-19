@@ -1,0 +1,84 @@
+﻿@model RecordingFormatsListingModel
+
+@{
+    ViewData["Title"] = "Available Formats";
+
+    var orderedFormats = Model.Recording
+        .AvailableFormats
+        .OrderBy(f => f.Name);
+}
+
+<h2>@Model.Recording.Title (@Model.Recording.LabelName, @Model.Recording.ReleaseDate.ToDate())</h2>
+<h3>
+    @ViewData["Title"]
+    <a asp-action=@nameof(RecordingsController.Artists) asp-route-id=@Model.Recording.Id
+       class="btn btn-primary pull-right">Review Contributing Artists</a>
+</h3>
+
+@if (Model.Recording.AvailableFormats.Any())
+{
+    <table class="table table-hover table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Format</th>
+                <th>Price</th>
+                <th>Discount, %</th>
+                <th>Quantity</th>
+                <th>Pricing</th>
+                <th>Administration</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var format in orderedFormats)
+            {
+                <tr>
+                    <td>@format.Name</td>
+                    <td class="text-right">@format.Price.ToCurrency()</td>
+                    <td class="text-right">@format.Discount.ToPercentage()</td>
+                    <td class="text-right">@format.Quantity</td>
+                    <td>
+                        <a asp-action=@nameof(RecordingsController.Pricing)
+                           asp-route-id=@Model.Recording.Id asp-route-formatId=@format.Id
+                           class="btn btn-warning">Edit</a>
+                    </td>
+                    <td>
+                        <form method="post"
+                              asp-action=@nameof(RecordingsController.RemoveFormatFromRecording)
+                              asp-route-id=@Model.Recording.Id asp-route-formatId=@format.Id>
+                            <input type="submit" class="btn btn-danger" value="Remove Format" />
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    @: No formats avaiable for this recording.
+}
+
+<h3>Add more formats to this recording</h3>
+<div class="row">
+    <form method="post" asp-action=@nameof(RecordingsController.AddFormatToRecording)>
+        <input hidden name="RecordingId" asp-for=@Model.Recording.Id />
+        <div class="col-md-3 ">
+            <select name="FormatId" asp-items=Model.Formats class="form-control"></select>
+        </div>
+        <div class="col-md-2">
+            <input required name="Price" type="number" min="0.01" step="0.01"
+                   class="form-control" placeholder="Price" />
+        </div>
+        <div class="col-md-2">
+            <input required name="Discount" type="number" min="0" max="100" step="1"
+                   class="form-control" placeholder="Discount, %" />
+        </div>
+        <div class="col-md-2">
+            <input required name="Quantity" type="number" min="0" step="1"
+                   class="form-control" placeholder="Quantity" />
+        </div>
+        <div class="col-md-3 ">
+            <input type="submit" class="btn btn-primary" value="Add Format" />
+        </div>
+    </form>
+</div>

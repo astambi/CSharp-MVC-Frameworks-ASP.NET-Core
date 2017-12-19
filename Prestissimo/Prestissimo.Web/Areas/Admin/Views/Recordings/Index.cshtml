@@ -16,8 +16,6 @@
             <th>Title</th>
             <th>Label</th>
             <th>Administration</th>
-            <th>Add Artist</th>
-            <th>Add Format</th>
         </tr>
     </thead>
     <tbody>
@@ -32,9 +30,11 @@
                        class="btn btn-warning">Edit</a>
                     <a asp-action=@nameof(RecordingsController.Delete) asp-route-id=@recording.Id
                        class="btn btn-danger">Delete</a>
+                    <a asp-action=@nameof(RecordingsController.Artists) asp-route-id=@recording.Id
+                       class="btn btn-primary">Artists</a>
+                    <a asp-action=@nameof(RecordingsController.Formats) asp-route-id=@recording.Id
+                       class="btn btn-primary">Pricing</a>
                 </td>
-                <td>TODO</td>
-                <td>TODO</td>
             </tr>
         }
     </tbody>

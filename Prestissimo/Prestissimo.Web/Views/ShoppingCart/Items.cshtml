@@ -1,0 +1,14 @@
+﻿@model IEnumerable<CartItemWithDetailsServiceModel>
+
+@{
+    ViewData["Title"] = "Items";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+@foreach (var item in Model)
+{
+    <div>
+        @item.RecordingTitle - @item.FormatName - @item.Quantity at @item.Price, discount @item.Discount %
+    </div>
+}

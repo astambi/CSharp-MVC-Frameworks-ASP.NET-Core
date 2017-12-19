@@ -20,7 +20,7 @@
         [DataType(DataType.Date)]
         public DateTime? ReleaseDate { get; set; }
 
-        [Range(1, int.MaxValue)]
+        [Range(DataConstants.RecordingMinLength, DataConstants.RecordingMaxLength)]
         public int Length { get; set; }
 
         [Required]

@@ -1,6 +1,8 @@
 ﻿namespace Prestissimo.Web
 {
     using AutoMapper;
+    using Data;
+    using Data.Models;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Identity;
@@ -8,9 +10,9 @@
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
-    using Prestissimo.Data;
-    using Prestissimo.Data.Models;
-    using Prestissimo.Web.Infrastructure.Extensions;
+    using Services;
+    using Services.Implementations;
+    using Web.Infrastructure.Extensions;
 
     public class Startup
     {
@@ -51,12 +53,15 @@
                     options.ClientSecret = this.Configuration["Authentication:Google:ClientSecret"];
                 });
 
-            // Add application services.
+            // Application services
+            services.AddSingleton<IShoppingCartManager, ShoppingCartManager>(); // NB! shopping cart only
             services.AddDomainServices();
-            services.AddRouting(routing => routing.LowercaseUrls = true);
-            //services.AddSession();
 
-            // Add Auto Mapper
+            services.AddRouting(routing => routing.LowercaseUrls = true);
+
+            services.AddSession();
+
+            // Auto Mapper
             services.AddAutoMapper();
 
             services.AddMvc(options =>
@@ -84,6 +89,8 @@
             app.UseStaticFiles();
 
             app.UseAuthentication();
+
+            app.UseSession();
 
             app.UseMvc(routes =>
             {

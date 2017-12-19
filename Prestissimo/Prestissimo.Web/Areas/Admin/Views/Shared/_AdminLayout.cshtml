@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Prestissimo</title>
+    <title>@ViewData["Title"] - Admin</title>
 
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
@@ -17,7 +17,7 @@
     </environment>
 </head>
 <body>
-    <nav class="navbar navbar-inverse navbar-fixed-top">
+    <nav class="navbar navbar-default navbar-fixed-top" >
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -38,15 +38,6 @@
                         <li><a asp-area="Admin" asp-controller="Labels" asp-action="Index">Labels</a></li>
                         <li><a asp-area="Admin" asp-controller="Formats" asp-action="Index">Formats</a></li>
                     }
-
-                    <li><a asp-area=@WebConstants.BlogArea asp-controller="Articles" asp-action="Index">Blog</a></li>
-                    @if (User.IsInRole(WebConstants.BlogAuthorRole))
-                    {
-                        <li><a asp-area=@WebConstants.BlogArea asp-controller="Articles" asp-action="Create">Publish Article</a></li>
-                    }
-
-                    <li><a asp-area="" asp-controller="Home" asp-action="Cart">Shopping Cart</a></li>
-
                 </ul>
                 @await Html.PartialAsync("_LoginPartial")
             </div>
@@ -73,10 +64,6 @@
         }
 
         @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; 2017 - Prestissimo</p>
-        </footer>
     </div>
 
     <environment include="Development">

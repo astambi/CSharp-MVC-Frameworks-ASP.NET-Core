@@ -17,7 +17,7 @@
             this.db = db;
         }
 
-        public async Task<IEnumerable<TModel>> AllAsync<TModel>()
+        public async Task<IEnumerable<TModel>> AllAsync<TModel>() where TModel : class
             => await this.db
                 .Formats
                 .OrderBy(f => f.Name)
@@ -49,7 +49,7 @@
         public async Task<bool> ExistsAsync(string name)
             => await this.db.Formats.AnyAsync(f => f.Name.ToLower() == name.ToLower());
                 
-        public async Task<TModel> GetByIdAsync<TModel>(int id)
+        public async Task<TModel> GetByIdAsync<TModel>(int id) where TModel : class
            => await this.db
                .Formats
                .Where(f => f.Id == id)

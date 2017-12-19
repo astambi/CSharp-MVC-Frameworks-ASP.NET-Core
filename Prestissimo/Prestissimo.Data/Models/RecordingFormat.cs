@@ -12,14 +12,14 @@
 
         public Format Format { get; set; }
 
-        [Range(0, int.MaxValue)]
+        [Range(DataConstants.RecordingFormatMinQuantity, DataConstants.RecordingFormatMaxQuantity)]
         public int Quantity { get; set; }
 
-        [Range(0.01, double.MaxValue)]
+        [Range(DataConstants.RecordingFormatMinPrice, DataConstants.RecordingFormatMaxPrice)]
         public decimal Price { get; set; }
 
         // In %
-        [Range(0, 100)]
+        [Range(DataConstants.RecordingFormatMinDiscount, DataConstants.RecordingFormatMaxDiscount)]
         public double Discount { get; set; }
     }
 }

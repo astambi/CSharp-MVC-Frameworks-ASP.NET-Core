@@ -7,6 +7,9 @@
         public const string ArtistInvalidDataMsg = "Invalid artist data.";
         public const string ArtistNotFoundMsg = "Artist not found.";
         public const string ArtistUpdatedMsg = "{1} {0} was successfully updated.";
+        public const string ArtistAddedToRecordingMsg = "{0} {1} was successfully added to this recording.";
+        public const string ArtistAlreadyContributingToRecordingMsg = "{0} {1} is already contributing to this recording.";
+        public const string ArtistRemovedFromRecordingMsg = "{0} {1} was successfully removed from this recording.";
 
         public const string FormatCreatedMsg = "Format {0} was successfully created.";
         public const string FormatDeletedMsg = "Format {0} was successfully deleted.";
@@ -14,12 +17,17 @@
         public const string FormatInvalidDataMsg = "Invalid format data.";
         public const string FormatNotFoundMsg = "Format not found.";
         public const string FormatUpdatedMsg = "Format {0} was successfully updated.";
+        public const string FormatAddedToRecordingMsg = "Format {0} was successfully added to this recording.";
+        public const string FormatAlreadyAddedToRecordingMsg = "Format {0} is already added to this recording.";
+        public const string FormatRemovedFromRecordingMsg = "Format {0} was successfully removed from this recording.";
 
         public const string LabelCreatedMsg = "Label {0} was successfully created.";
         public const string LabelDeletedMsg = "Label {0} was successfully deleted.";
         public const string LabelInvalidDataMsg = "Invalid label data.";
         public const string LabelNotFoundMsg = "Label not found.";
         public const string LabelUpdatedMsg = "Label {0} was successfully updated.";
+
+        public const string PricingUpdatedMsg = "Pricing for recording {0} in format {1} was successfully updated.";
 
         public const string RecordingCreatedMsg = "Recording {0} was successfully created.";
         public const string RecordingDeletedMsg = "Recording {0} was successfully deleted.";

@@ -17,7 +17,7 @@
             this.db = db;
         }
 
-        public async Task<IEnumerable<TModel>> AllAsync<TModel>()
+        public async Task<IEnumerable<TModel>> AllAsync<TModel>() where TModel : class
             => await this.db
                 .Labels
                 .OrderBy(l => l.Name)
@@ -39,7 +39,7 @@
         public async Task<bool> ExistsAsync(int id)
             => await this.db.Labels.AnyAsync(l => l.Id == id);
 
-        public async Task<TModel> GetByIdAsync<TModel>(int id)
+        public async Task<TModel> GetByIdAsync<TModel>(int id) where TModel : class
              => await this.db
                 .Labels
                 .Where(l => l.Id == id)

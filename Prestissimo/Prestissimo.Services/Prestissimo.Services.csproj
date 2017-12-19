@@ -9,8 +9,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Models\" />
-    <Folder Include="Implementations\" />
     <Folder Include="Blog\" />
   </ItemGroup>
 

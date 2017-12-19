@@ -5,7 +5,7 @@
 
     public interface IAdminFormatService
     {
-        Task<IEnumerable<TModel>> AllAsync<TModel>();
+        Task<IEnumerable<TModel>> AllAsync<TModel>() where TModel : class;
 
         Task<bool> CreateAsync(string name, string description);
 
@@ -13,7 +13,7 @@
 
         Task<bool> ExistsAsync(string name);
 
-        Task<TModel> GetByIdAsync<TModel>(int id);
+        Task<TModel> GetByIdAsync<TModel>(int id) where TModel : class;
 
         Task RemoveAsync(int id);
 

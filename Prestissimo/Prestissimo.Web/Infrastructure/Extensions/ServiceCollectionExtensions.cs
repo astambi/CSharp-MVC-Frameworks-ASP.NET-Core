@@ -1,7 +1,7 @@
 ﻿namespace Prestissimo.Web.Infrastructure.Extensions
 {
     using Microsoft.Extensions.DependencyInjection;
-    using Prestissimo.Services;
+    using Services;
     using System.Linq;
     using System.Reflection;
 
