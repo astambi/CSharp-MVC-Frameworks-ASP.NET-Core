@@ -1,8 +1,10 @@
-﻿@{
+﻿@model IEnumerable<CartItemWithDetailsServiceModel>
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="6000">
+@*<div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="6000">
     <ol class="carousel-indicators">
         <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
         <li data-target="#myCarousel" data-slide-to="1"></li>
@@ -63,4 +65,18 @@
         <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
         <span class="sr-only">Next</span>
     </a>
-</div>
+</div>*@
+
+
+@foreach (var recording in Model)
+{
+    <div>
+        @recording.RecordingTitle, format @recording.FormatName @@ @recording.Price with @recording.Discount% discount
+        <a asp-area=""
+           asp-controller="ShoppingCart"
+           asp-action=@nameof(ShoppingCartController.AddToCart)
+           asp-route-recordingId=@recording.RecordingId
+           asp-route-formatId=@recording.FormatId
+           class="btn btn-primary">Add to cart</a>
+    </div>
+}

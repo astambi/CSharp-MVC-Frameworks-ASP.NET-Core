@@ -13,7 +13,8 @@
                 .GetAssembly(typeof(IService))
                 .GetTypes()
                 .Where(t => t.IsClass &&
-                            t.GetInterfaces().Any(i => i.Name == $"I{t.Name}"))
+                            t.GetInterfaces().Any(i => i.Name == $"I{t.Name}"
+                                                    && i.Name != nameof(IShoppingCartManager))) // NB! singleton
                 .Select(t => new
                 {
                     Interface = t.GetInterface($"I{t.Name}"),

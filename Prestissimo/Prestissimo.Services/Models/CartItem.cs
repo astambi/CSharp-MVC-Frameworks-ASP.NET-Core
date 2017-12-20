@@ -1,6 +1,9 @@
 ﻿namespace Prestissimo.Services.Models
 {
-    public class CartItem
+    using Common.Mapping;
+    using Data.Models;
+
+    public class CartItem : IMapFrom<RecordingFormat>
     {
         public int RecordingId { get; set; }
 

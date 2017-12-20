@@ -9,8 +9,8 @@
 
         IEnumerable<CartItem> GetItems(string cartId);
 
-        IEnumerable<CartItemWithDetailsServiceModel> GetItemsWithDetails(string cartId);
-
         void RemoveFromCart(string cartId, int recordingId, int formatId);
+
+        void Clear(string cartId);
     }
 }

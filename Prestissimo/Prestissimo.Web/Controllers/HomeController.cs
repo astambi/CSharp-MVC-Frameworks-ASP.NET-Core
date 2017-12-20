@@ -2,13 +2,23 @@
 {
     using Microsoft.AspNetCore.Mvc;
     using Models;
+    using Services;
     using System.Diagnostics;
+    using System.Threading.Tasks;
 
     public class HomeController : Controller
     {
-        public IActionResult Index()
+        private readonly IRecordingService recordingService;
+
+        public HomeController(IRecordingService recordingService)
         {
-            return View();
+            this.recordingService = recordingService;
+        }
+
+        public async Task<IActionResult> Index()
+        {
+            var recordingsData = await this.recordingService.GetRecordingsAsync();
+            return View(recordingsData);
         }
 
         public IActionResult Error()
