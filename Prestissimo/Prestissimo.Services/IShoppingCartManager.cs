@@ -11,6 +11,10 @@
 
         void RemoveFromCart(string cartId, int recordingId, int formatId);
 
+        void IncreaseQuantity(string cartId, int recordingId, int formatId);
+
+        void DecreaseQuantity(string cartId, int recordingId, int formatId);
+
         void Clear(string cartId);
     }
 }

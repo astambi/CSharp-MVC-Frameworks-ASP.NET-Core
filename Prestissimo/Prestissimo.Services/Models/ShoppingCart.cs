@@ -14,8 +14,7 @@
 
         public void AddToCart(int recordingId, int formatId)
         {
-            var cartItem = this.items.FirstOrDefault(i => i.RecordingId == recordingId
-                                                       && i.FormatId == formatId);
+            var cartItem = this.GetCartItem(recordingId, formatId);
             if (cartItem == null)
             {
                 cartItem = new CartItem
@@ -33,20 +32,46 @@
             }
         }
 
+        public void ClearCartItems()
+            => this.items.Clear();
+
         public IEnumerable<CartItem> GetItems
             => new List<CartItem>(this.items);
 
+        public void DecreaseQuantity(int recordingId, int formatId)
+        {
+            var cartItem = this.GetCartItem(recordingId, formatId);
+            if (cartItem != null && cartItem.Quantity > 0)
+            {
+                cartItem.Quantity--;
+
+                if (cartItem.Quantity == 0)
+                {
+                    this.RemoveFromCart(recordingId, formatId);
+                }
+            }
+        }
+
+        public void IncreaseQuantity(int recordingId, int formatId)
+        {
+            var cartItem = this.GetCartItem(recordingId, formatId);
+            if (cartItem != null)
+            {
+                cartItem.Quantity++;
+            }
+        }
+
         public void RemoveFromCart(int recordingId, int formatId)
         {
-            var cartItem = this.items.FirstOrDefault(i => i.RecordingId == recordingId
-                                                       && i.FormatId == formatId);
-
+            var cartItem = this.GetCartItem(recordingId, formatId);
             if (cartItem != null)
             {
                 this.items.Remove(cartItem);
             }
         }
 
-        public void ClearCartItems() => this.items.Clear();
+        private CartItem GetCartItem(int recordingId, int formatId)
+            => this.items.FirstOrDefault(i => i.RecordingId == recordingId
+                                           && i.FormatId == formatId);
     }
 }

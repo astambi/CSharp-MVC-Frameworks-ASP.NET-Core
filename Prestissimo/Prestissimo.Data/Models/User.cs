@@ -12,6 +12,8 @@
         [MaxLength(DataConstants.UserNameMaxLength)]
         public string Name { get; set; }
 
+        public ICollection<Order> Orders { get; set; } = new List<Order>();
+
         public ICollection<Article> Articles { get; set; } = new List<Article>();
     }
 }

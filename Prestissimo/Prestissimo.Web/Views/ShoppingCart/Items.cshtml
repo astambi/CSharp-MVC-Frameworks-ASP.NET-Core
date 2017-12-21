@@ -2,66 +2,102 @@
 
 @{
     ViewData["Title"] = "Your Items";
+    var itemsCount = Model.Sum(i => i.Quantity);
+    var orderTotal = Model.Sum(i => i.Price * i.Quantity * (1 - (decimal)i.Discount / 100));
 }
 
 <h2>@ViewData["Title"]</h2>
 
 @if (Model.Any())
 {
-    <table class="table table-hover ">
-        <thead>
-            <tr>
-                <th>Recording</th>
-                <th>Format</th>
-                <th>Price</th>
-                <th>Discount, %</th>
-                <th>Quantity</th>
-                <th>Total</th>
-                <th>Remove</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>
-                        @item.RecordingTitle
-                    </td>
-                    <td>@item.FormatName</td>
-                    <td class="text-right">@item.Price.ToCurrency()</td>
-                    <td class="text-right">@item.Discount.ToPercentage()</td>
-                    <td class="text-center">
-                        <a asp-controller="ShoppingCart" asp-action=@nameof(ShoppingCartController.Down)
-                           asp-route-recordingId=@item.RecordingId
-                           asp-route-formatId=@item.FormatId
-                           class="btn btn-default">&minus;</a>
-                        @item.Quantity
-                        <a asp-controller="ShoppingCart" asp-action=@nameof(ShoppingCartController.Up)
-                           asp-route-recordingId=@item.RecordingId
-                           asp-route-formatId=@item.FormatId
-                           class="btn btn-default">+</a>
-                    </td>
-                    <td>@((item.Price * @item.Quantity * (1 - (decimal)@item.Discount / 100)).ToCurrency())</td>
-                    <td>
-                        <a asp-controller="ShoppingCart" asp-action=@nameof(ShoppingCartController.Remove)
-                           asp-route-recordingId=@item.RecordingId
-                           asp-route-formatId=@item.FormatId
-                           class="btn btn-danger">&times;</a>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-    <h2>
-        Total price: @Model.Sum(i => i.Price * i.Quantity * (1 - (decimal)i.Discount / 100)).ToCurrency()
-    </h2>
-    <div>
-        <form method="post" asp-controller="ShoppingCart" asp-action=@nameof(ShoppingCartController.FinishOrder)>
-            <input type="submit" class="btn btn-primary btn-lg " value="Finish Order" />
-        </form>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                <table class="table table-hover ">
+                    <thead>
+                        <tr>
+                            <th>Recording</th>
+                            <th>Format</th>
+                            <th>Price</th>
+                            <th>Discount</th>
+                            <th>Quantity</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.RecordingTitle</td>
+                                <td>@item.FormatName</td>
+                                <td class="text-right">@item.Price.ToCurrency()</td>
+                                <td class="text-right">@item.Discount.ToPercentage()</td>
+                                <td class="text-center">
+                                    @item.Quantity
+                                    <div class="btn-group btn-group-sm pull-right">
+                                        <a asp-controller="ShoppingCart"
+                                           asp-action=@nameof(ShoppingCartController.DescreaseQuantity)
+                                           asp-route-recordingId=@item.RecordingId
+                                           asp-route-formatId=@item.FormatId
+                                           class="btn btn-default btn-sm">&minus;</a>
+                                        <a asp-controller="ShoppingCart"
+                                           asp-action=@nameof(ShoppingCartController.IncreaseQuantity)
+                                           asp-route-recordingId=@item.RecordingId
+                                           asp-route-formatId=@item.FormatId
+                                           class="btn btn-default btn-sm">+</a>
+                                        <a asp-controller="ShoppingCart"
+                                           asp-action=@nameof(ShoppingCartController.Remove)
+                                           asp-route-recordingId=@item.RecordingId
+                                           asp-route-formatId=@item.FormatId
+                                           class="btn btn-danger btn-sm">&times;</a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-md-3">
+                <a asp-controller="Home" asp-action="Index"
+                   class="btn btn-block btn-primary">Continue shopping</a>
+                <h3>Order Summary</h3>
+                <hr />
+                <h4>
+                    Subtotal (@itemsCount @(itemsCount > 1 ? "items" : "item"))
+                    <span class="pull-right">
+                        @orderTotal.ToCurrency()
+                    </span>
+                </h4>
+                <h4>
+                    Delivery
+                    <span class="pull-right">free</span>
+                </h4>
+                <hr />
+                <h3>
+                    Order Total
+                    <span class="pull-right">@orderTotal.ToCurrency()</span>
+                </h3>
+                <div>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <form method="post"
+                              asp-controller="ShoppingCart"
+                              asp-action=@nameof(ShoppingCartController.FinishOrder)>
+                            <input hidden name="OrderTotal" value=@orderTotal />
+                            <input type="submit" class="btn btn-success btn-block btn-lg" value="Finish Order" />
+                        </form>
+                    }
+                    else
+                    {
+                        <a asp-controller="Account" asp-action=@nameof(AccountController.Login)
+                           asp-route-returnUrl=@Context.Request.Path
+                           class="btn btn-primary btn-block btn-lg">Login to Complete Order</a>
+                    }
+                </div>
+            </div>
+        </div>
     </div>
 }
 else
 {
-    @:No items in shopping cart.
+    @:No items in your shopping cart.
 }

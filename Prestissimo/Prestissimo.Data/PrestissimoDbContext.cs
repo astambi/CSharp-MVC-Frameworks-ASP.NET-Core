@@ -25,6 +25,10 @@
 
         public DbSet<RecordingFormat> RecordingFormats { get; set; }
 
+        public DbSet<OrderItem> OrderItems { get; set; }
+
+        public DbSet<Order> Orders { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
@@ -47,6 +51,18 @@
                 .HasOne(r => r.Label)
                 .WithMany(l => l.Recordings)
                 .HasForeignKey(r => r.LabelId);
+
+            builder
+                .Entity<Order>()
+                .HasOne(o => o.User)
+                .WithMany(u => u.Orders)
+                .HasForeignKey(o => o.UserId);
+
+            builder
+                .Entity<Order>()
+                .HasMany(o => o.OrderItems)
+                .WithOne(oi => oi.Order)
+                .HasForeignKey(oi => oi.OrderId);
 
             // Many-to-Many
             builder

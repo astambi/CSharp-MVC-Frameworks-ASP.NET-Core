@@ -14,21 +14,24 @@
         }
 
         public void AddToCart(string cartId, int recordingId, int formatId)
-            => this.GetShoppingCart(cartId)
-                   .AddToCart(recordingId, formatId);
+            => this.GetShoppingCart(cartId).AddToCart(recordingId, formatId);
+
+        public void Clear(string cartId)
+            => this.GetShoppingCart(cartId).ClearCartItems();
+
+        public void DecreaseQuantity(string cartId, int recordingId, int formatId)
+            => this.GetShoppingCart(cartId).DecreaseQuantity(recordingId, formatId);
 
         public IEnumerable<CartItem> GetItems(string cartId)
             => new List<CartItem>(this.GetShoppingCart(cartId).GetItems);
 
-        public void RemoveFromCart(string cartId, int recordingId, int formatId)
-            => this.GetShoppingCart(cartId)
-                   .RemoveFromCart(recordingId, formatId);
-
-        public void Clear(string cartId)
-            => this.GetShoppingCart(cartId)
-                   .ClearCartItems();
-
         private ShoppingCart GetShoppingCart(string cartId)
             => this.shoppingCarts.GetOrAdd(cartId, new ShoppingCart());
+
+        public void IncreaseQuantity(string cartId, int recordingId, int formatId)
+            => this.GetShoppingCart(cartId).IncreaseQuantity(recordingId, formatId);
+
+        public void RemoveFromCart(string cartId, int recordingId, int formatId)
+            => this.GetShoppingCart(cartId).RemoveFromCart(recordingId, formatId);
     }
 }
