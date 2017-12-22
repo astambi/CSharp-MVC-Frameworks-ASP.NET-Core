@@ -32,18 +32,15 @@
                 <ul class="nav navbar-nav">
                     @if (User.IsInRole(WebConstants.AdministratorRole))
                     {
-                        <li><a asp-area="Admin" asp-controller="Users" asp-action="Index">Users</a></li>
-                        <li><a asp-area="Admin" asp-controller="Recordings" asp-action="Index">Recordings</a></li>
-                        <li><a asp-area="Admin" asp-controller="Artists" asp-action="Index">Artists</a></li>
-                        <li><a asp-area="Admin" asp-controller="Labels" asp-action="Index">Labels</a></li>
-                        <li><a asp-area="Admin" asp-controller="Formats" asp-action="Index">Formats</a></li>
+                        <li><a asp-area="Admin" asp-controller="Recordings" asp-action="Index" 
+                               class="btn btn-danger">Adminitration</a></li>
                     }
 
-                    <li><a asp-area=@WebConstants.BlogArea asp-controller="Articles" asp-action="Index">Blog</a></li>
+                    @*<li><a asp-area=@WebConstants.BlogArea asp-controller="Articles" asp-action="Index">Blog</a></li>
                     @if (User.IsInRole(WebConstants.BlogAuthorRole))
                     {
                         <li><a asp-area=@WebConstants.BlogArea asp-controller="Articles" asp-action="Create">Publish Article</a></li>
-                    }
+                    }*@
 
                     <li><a asp-area="" asp-controller="ShoppingCart" asp-action="Items">Shopping Cart</a></li>
 
