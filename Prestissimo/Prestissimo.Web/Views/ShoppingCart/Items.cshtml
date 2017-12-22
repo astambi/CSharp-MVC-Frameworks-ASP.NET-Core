@@ -1,12 +1,12 @@
 ﻿@model IEnumerable<CartItemViewModel>
 
 @{
-    ViewData["Title"] = "Your Items";
+    ViewData["Title"] = "Shopping Cart";
     var itemsCount = Model.Sum(i => i.Quantity);
     var orderTotal = Model.Sum(i => i.Price * i.Quantity * (1 - (decimal)i.Discount / 100));
 }
 
-<h2>@ViewData["Title"]</h2>
+<h2>Your @ViewData["Title"]</h2>
 
 @if (Model.Any())
 {
@@ -90,7 +90,7 @@
                     {
                         <a asp-controller="Account" asp-action=@nameof(AccountController.Login)
                            asp-route-returnUrl=@Context.Request.Path
-                           class="btn btn-primary btn-block btn-lg">Login to Complete Order</a>
+                           class="btn btn-primary btn-block btn-lg">Login to Order</a>
                     }
                 </div>
             </div>
