@@ -3,13 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27130.2010
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prestissimo.Web", "Prestissimo.Web\Prestissimo.Web.csproj", "{0E1B80F3-8B4F-43E6-8A8B-B18E701E068B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Prestissimo.Web", "Prestissimo.Web\Prestissimo.Web.csproj", "{0E1B80F3-8B4F-43E6-8A8B-B18E701E068B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prestissimo.Data", "Prestissimo.Data\Prestissimo.Data.csproj", "{7EF179B4-0DF0-4A67-BB31-2B7D699B90F6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Prestissimo.Data", "Prestissimo.Data\Prestissimo.Data.csproj", "{7EF179B4-0DF0-4A67-BB31-2B7D699B90F6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prestissimo.Common", "Prestissimo.Common\Prestissimo.Common.csproj", "{D295F802-3B78-4F70-B9F5-DD30F6B5916A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Prestissimo.Common", "Prestissimo.Common\Prestissimo.Common.csproj", "{D295F802-3B78-4F70-B9F5-DD30F6B5916A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prestissimo.Services", "Prestissimo.Services\Prestissimo.Services.csproj", "{0B1039E9-394A-4DA6-9B7B-286FE1DA9155}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Prestissimo.Services", "Prestissimo.Services\Prestissimo.Services.csproj", "{0B1039E9-394A-4DA6-9B7B-286FE1DA9155}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prestissimo.Tests", "Prestissimo.Tests\Prestissimo.Tests.csproj", "{6EAD9495-3912-4124-9D84-0296D612C700}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{0B1039E9-394A-4DA6-9B7B-286FE1DA9155}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0B1039E9-394A-4DA6-9B7B-286FE1DA9155}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0B1039E9-394A-4DA6-9B7B-286FE1DA9155}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6EAD9495-3912-4124-9D84-0296D612C700}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6EAD9495-3912-4124-9D84-0296D612C700}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6EAD9495-3912-4124-9D84-0296D612C700}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6EAD9495-3912-4124-9D84-0296D612C700}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

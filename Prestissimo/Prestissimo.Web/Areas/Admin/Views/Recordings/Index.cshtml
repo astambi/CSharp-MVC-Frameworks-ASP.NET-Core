@@ -26,14 +26,14 @@
                 <td>@recording.Title</td>
                 <td>@recording.LabelName</td>
                 <td>
-                    <a asp-action=@nameof(RecordingsController.Edit) asp-route-id=@recording.Id
-                       class="btn btn-warning">Edit</a>
-                    <a asp-action=@nameof(RecordingsController.Delete) asp-route-id=@recording.Id
-                       class="btn btn-danger">Delete</a>
-                    <a asp-action=@nameof(RecordingsController.Artists) asp-route-id=@recording.Id
-                       class="btn btn-primary">Artists</a>
                     <a asp-action=@nameof(RecordingsController.Formats) asp-route-id=@recording.Id
                        class="btn btn-primary">Pricing</a>
+                    <a asp-action=@nameof(RecordingsController.Artists) asp-route-id=@recording.Id
+                       class="btn btn-primary">Artists</a>
+                    <a asp-action=@nameof(RecordingsController.Edit) asp-route-id=@recording.Id
+                       class="btn glyphicon glyphicon-pencil"></a>
+                    <a asp-action=@nameof(RecordingsController.Delete) asp-route-id=@recording.Id
+                       class="btn glyphicon glyphicon-remove text-danger"></a>
                 </td>
             </tr>
         }

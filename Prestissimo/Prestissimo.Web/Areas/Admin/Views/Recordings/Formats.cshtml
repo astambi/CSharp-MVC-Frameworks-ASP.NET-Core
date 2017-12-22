@@ -39,13 +39,13 @@
                     <td>
                         <a asp-action=@nameof(RecordingsController.Pricing)
                            asp-route-id=@Model.Recording.Id asp-route-formatId=@format.Id
-                           class="btn btn-warning">Edit</a>
+                           class="btn btn-default">Edit</a>
                     </td>
                     <td>
                         <form method="post"
                               asp-action=@nameof(RecordingsController.RemoveFormatFromRecording)
                               asp-route-id=@Model.Recording.Id asp-route-formatId=@format.Id>
-                            <input type="submit" class="btn btn-danger" value="Remove Format" />
+                            <input type="submit" class="btn btn-danger" value=&times />
                         </form>
                     </td>
                 </tr>

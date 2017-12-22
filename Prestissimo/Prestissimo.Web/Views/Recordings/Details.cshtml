@@ -1,0 +1,47 @@
+﻿@model RecordingDetailsServiceModel
+
+@{
+    ViewData["Title"] = "Recording Details";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<div class="row">
+    <div class="col-md-4 ">
+        <img class="img-responsive" src=@Model.ImageUrl alt=@Model.Title width="300" />
+    </div>
+    <div class="col-md-8">
+        <h2>
+            @Model.Title
+        </h2>
+        <hr />
+        <h4><strong>Label: </strong>@Model.LabelName</h4>
+        <h4><strong>Release Date: </strong>@(((DateTime)Model.ReleaseDate).ToDate())</h4>
+        <hr />
+
+        <h4><strong>Contributing Artists:</strong></h4>
+        @foreach (var artist in Model.Artists.OrderBy(a => a.ArtistName))
+        {
+            <h5>@artist.ArtistName (@artist.ArtistType)</h5>
+        }
+        <hr />
+
+        <h4><strong>Available Formats:</strong></h4>
+        @foreach (var format in Model.Formats.OrderBy(f => f.Price))
+        {
+            <div class="row">
+                <div class="col-md-6">
+                    <h4>
+                        <a asp-area=""
+                           asp-controller="ShoppingCart"
+                           asp-action=@nameof(ShoppingCartController.AddToCart)
+                           asp-route-recordingId=@Model.Id
+                           asp-route-formatId=@format.FormatId
+                           class="btn btn-success">Add to Shopping Cart</a>
+                        @format.FormatName - @format.Price.ToCurrency()
+                    </h4>
+                </div>
+            </div>
+        }
+    </div>
+</div>

@@ -14,5 +14,7 @@
 
         public const string OrderCompleted = "You successfully completed your order.";
         public const string OrderInvalidData = "Invalid order data.";
+
+        public const string RecordingNotFound = "Recording not found.";
     }
 }

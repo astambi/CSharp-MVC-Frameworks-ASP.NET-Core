@@ -27,9 +27,9 @@
                 <td>@artist.Description</td>
                 <td>
                     <a asp-action=@nameof(ArtistsController.Edit) asp-route-id=@artist.Id
-                       class="btn btn-block btn-warning">Edit</a>
+                       class="btn glyphicon glyphicon-pencil"></a>
                     <a asp-action=@nameof(ArtistsController.Delete) asp-route-id=@artist.Id
-                       class="btn btn-block btn-danger">Delete</a>
+                       class="btn glyphicon glyphicon-remove text-danger"></a>
                 </td>
             </tr>
         }
